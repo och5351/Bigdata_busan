@@ -6,3 +6,5 @@ GitOps
 
 준비
 시작
+
+test
