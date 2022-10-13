@@ -6,6 +6,8 @@
 - 이제는 Image 분야에서도 SOTA를 찍고 있다
     - SOTA(State-of-the-art) : 현재 최고 수준의 결과
 
+[참고 깃허브](https://github.com/och5351/Bigdata_busan.git)
+
 # 논문 내용 정리
 
 > 현대의 자연어 처리 딥러닝 모델에 중대한 영향을 끼친 논문인 Transformer(NIPS 2017)를 소개합니다. 2020년을 기준으로 15,000번의 인용 횟수를 가진 Transformer 논문은 매우 많은 최신 자연어 처리 모델이 활용하고 있는 아키텍처를 제안합니다. 이러한 Transformer의 메인 아이디어는 BERT, GPT와 같은 최신 아키텍처에서도 채택되어 세계적으로 유명한 번역 프로그램인 Google 번역기, 네이버 파파고 등에서도 활용되고 있습니다.
