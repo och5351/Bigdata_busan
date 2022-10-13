@@ -184,7 +184,7 @@
         - 일반적으로 인코더, 디코더 레이어 개수는 동일하게 맞춘다
 - 트랜스포머에서도 인코더와 디코더의 구조를 따른다
     - 이때 **RNN 사용하지 않고, 인코더와 디코더를 다수 사용**한다는 점이 특징
-    - **<eos>가 나올 때까지** 디코더 여러번 사용
+    - **eos가 나올 때까지** 디코더 여러번 사용
         
         ![Untitled (14)](https://user-images.githubusercontent.com/108312195/195587115-70574cc2-edc9-4e22-8d16-f11c5dcc25fc.png)
         
@@ -193,9 +193,10 @@
 ### 트랜스포머의 동작 원리: 어텐션(Attention)
 
 - 인코더와 디코더는 **Multi-Head Attention 레이어**를 사용한다
+
 *Multi-Head Attention : 각 어텐션은 여러개의 Head를 가짐
 - 어텐션을 위한 **세 가지** 입력 요소
-    - 쿼리(Query) ]
+    - 쿼리(Query)
         - 물어보는 주체
         - ex) i
     - 키(Key)
@@ -220,7 +221,6 @@
     [ Multi-Head-Attention 레이어 수식 ]
     
     ![Untitled (16)](https://user-images.githubusercontent.com/108312195/195587165-69615d5e-d5de-4700-9e90-6109c6e70b81.png)
-    
     *Wo : output Matrix
     
 
@@ -257,7 +257,7 @@
 ![Untitled (20)](https://user-images.githubusercontent.com/108312195/195587300-7f978029-6b0f-47da-b17b-8a638fc176b3.png)
 
 - 쿼리값을 한꺼번에 각 키값과 곱함 → Attention Energies의 행, 열이 단어의 개수와 동일한 크기를 가짐 → softmax 취함 → 가중치와 value값 곱함 →  Attention value matrix 생성
-- **마스크 행렬(mask matrix)r**을 이용해 특정 단어는 무시할 수 있도록 한다
+- **마스크 행렬(mask matrix)을** 이용해 특정 단어는 무시할 수 있도록 한다
     
     ![Untitled (21)](https://user-images.githubusercontent.com/108312195/195587325-6a2e9abb-c751-4d83-b521-d58ae84deeaf.png)
     
@@ -316,7 +316,7 @@
     
     ![Untitled (26)](https://user-images.githubusercontent.com/108312195/195587512-bca4f5ab-434d-4f4a-b423-ab9880aa9021.png)
     
-    * PE : Positional Encoding의 약자, pos : 각 단어 번호, i : 각 단어에 대한 임베딩 값의 위치
+    *PE : Positional Encoding의 약자, pos : 각 단어 번호, i : 각 단어에 대한 임베딩 값의 위치
     
 - 주기성을 학습할 수 있도록만 하면 어떤 함수든 사용할 수 있다
 - sin, cos 처럼 정해진 함수를 사용할 수도 있지만, 위치 임베딩 값을 따로 학습 시켜서 네트워크에 넣을 수 있다
