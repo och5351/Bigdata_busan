@@ -257,7 +257,7 @@
 ![Untitled (20)](https://user-images.githubusercontent.com/108312195/195587300-7f978029-6b0f-47da-b17b-8a638fc176b3.png)
 
 - 쿼리값을 한꺼번에 각 키값과 곱함 → Attention Energies의 행, 열이 단어의 개수와 동일한 크기를 가짐 → softmax 취함 → 가중치와 value값 곱함 →  Attention value matrix 생성
-- **마스크 행렬(mask matrix)**을 이용해 특정 단어는 무시할 수 있도록 한다
+- **마스크 행렬(mask matrix)r**을 이용해 특정 단어는 무시할 수 있도록 한다
     
     ![Untitled (21)](https://user-images.githubusercontent.com/108312195/195587325-6a2e9abb-c751-4d83-b521-d58ae84deeaf.png)
     
