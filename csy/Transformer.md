@@ -21,8 +21,7 @@
     - GPT : Transformer의 Decoder 아키텍처 활용
     - BERT : Transformer의 Encoder 아키텍처 활용
     
-    
-    ![img](https://www.notion.so/Transformer-2557349217084579a9678bdd78618bdb#6859271b34334f6face7dd361c17d66d)
+![Untitled](https://user-images.githubusercontent.com/108312195/195584701-9c863690-62a0-41ae-8ff5-bfa345e7155e.png)
 
     [ LSTM ]
     
