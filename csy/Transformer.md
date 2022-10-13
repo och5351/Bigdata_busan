@@ -9,8 +9,9 @@
 # 논문 내용 정리
 
 > 현대의 자연어 처리 딥러닝 모델에 중대한 영향을 끼친 논문인 Transformer(NIPS 2017)를 소개합니다. 2020년을 기준으로 15,000번의 인용 횟수를 가진 Transformer 논문은 매우 많은 최신 자연어 처리 모델이 활용하고 있는 아키텍처를 제안합니다. 이러한 Transformer의 메인 아이디어는 BERT, GPT와 같은 최신 아키텍처에서도 채택되어 세계적으로 유명한 번역 프로그램인 Google 번역기, 네이버 파파고 등에서도 활용되고 있습니다.
+
 *아키텍처 : 시스템 구성 및 동작 원리
-> 
+>
 
 ## Attention 매커니즘을 전적으로 사용하는 아키텍처
 
@@ -36,6 +37,7 @@
 [ Transformer ]
 
 - 등장 이후 더이상 RNN 기반 아키텍처를 잘 이용하지 않고 Attention 메커니즘 많이 사용
+    
     *메커니즘 : 사물의 작용 원리나 구조
 - Attention 등장 이후 연구 방향이 입력 시퀀스 전체에서 정보를 추출하는 방향으로 발전했다
 
@@ -72,3 +74,264 @@
 
 - 매번 소스 문장에서의 출력 전부를 입력으로 받으면?
     - 최신 GPU는 많은 메모리와 빠른 병렬 처리를 지원
+- Seq2Seq 모델에 **Attention** 메커니즘을 사용
+    - 디코더는 **인코더의 모든 출력(outputs)을 참고**한다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca273771-187b-4caf-b4d4-b01693fc37fd/Untitled.png)
+    
+    - 출력할 때마다 소스문장에서 나왔던 모든 출력값들을 모두 참고함
+    
+    [ 세부과정 ]
+    
+    - 압축된 context vector 하나만 보는 것이 아니라 출력값 전부 고려한 하나의 Weighted sum vector을 구함 → w를 입력으로 같이 넣어줘서 소스 문장에 대한 정보를 모두 고려할 수 있도록 만들어줌 → 성능 향상
+
+### Seq2Seq with Attention: 디코더(Decoder)
+
+- 디코더는 **매번 인코더의 모든 출력 중에서 어떤 정보가 중요한지를 계산**
+    - i = 현재의 디코더가 처리 중인 인덱스
+    - j = 각각의 인코더 출력 인덱스
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/063a7a87-5019-4e79-9f0f-33f205e5abee/Untitled.png)
+        
+        [ 에너지 ]
+        
+        - 디코더 파트에서 이전에 출력했던 정보(Si-1)와 인코더의 모든 출력값(hj)과 비교
+        해서 에너지 값 구함
+            - 즉, 어떤 h값과 가장 많은 연관성을 가지는지 구할 수 있음
+        
+        [ 가중치 ]
+        
+        - 에너지값에 softmax 취해서 상대적인 확률값 구함
+        - Ci : 구한 가중치(αij)를 소스문장의 hidden state(hj)에 곱하고 모두 더한 값을 디코더의 입력으로 같이 넣어줌
+
+### Seq2Seq with Attention: 어텐션 시각화
+
+- Attention의 또 다른 장점 : 시각화 가능
+- 어텐션 가중치를 사용해 각 출력이 어떤 입력 정보를 참고했는지 알 수 있다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/225d7a6c-aac0-4a6f-bed2-23c6c0a7c23f/Untitled.png)
+    
+    - 밝게 표시된 부분이 확률값이 높은 부분
+    - 딥러닝이 어떤 요소에 초점을 두고 분류, 생성했는지 알기에 유용하다
+
+### 트랜스포머(Transformer)
+
+- 트랜스포머는 RNN이나 CNN을 전혀 사용하지 않는다
+    - 대신 **Positional Encoding**을 사용
+        - 단어의 순서 정보를 알려주기 위함
+- BERT와 같은 향상된 네트워크에서도 채택됨
+- 인코더와 디코더로 구성된다
+    - Attention 과정을 여러 레이어에서 반복한다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1750fef3-106e-4b33-a169-3fc79440303c/Untitled.png)
+    
+
+### 트랜스포머의 동작 원리: 입력 값 임베딩(Embeding)
+
+- 트랜스포머 이전의 **전통적인 임베딩**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/463ebfd5-0ba9-492a-85e2-c4b66f878cc8/Untitled.png)
+    
+- RNN을 사용하지 않으려면 위치 정보를 포함하고 있는 임베딩을 사용해야 함
+    - 이를 위해 **Positional Encoding** 사용
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/986405e6-b67b-4c80-92d1-1e491a0237d8/Untitled.png)
+        
+
+### 트랜스포머의 동작 원리: 인코더(Encoder)
+
+- 임베딩 끝난 후 **Attention 진행**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47c34b93-edc1-4052-9bc0-2d77f549f8e6/Untitled.png)
+    
+- 성능 향상을 위해 **잔여 학습(Residual Learning)** 사용
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/855777ec-9c8b-4c09-b2c4-bae371987db5/Untitled.png)
+    
+    - 특정 레이어를 건너뛰어서 복사된 값을 그대로 넣어주는 기법
+    - 기존 정보 입력받으면서, 잔여된 부분만 학습 → 학습 난이도 낮다 → 초기 모델 수렴 속도 빨라짐
+        - 다양한 네트워크에서 Residual Learning 함으로써 성능이 좋아지는 것을 목격할 수 있다
+- Residual Learning한 후 Normalization까지 수행 한 뒤 결과를 내보냄
+- 어텐션(Attention)과 정규화(Normalization) 과정을 반복한다
+    - 여러 레이어 중첩
+    - **각 레이어는 서로 다른 파라미터**를 가진다
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/994180c7-fb8f-4fb1-8491-bdbddf685cbf/Untitled.png)
+        
+    - 입력과 출력의 Dimension은 동일
+
+### 트랜스포머의 동작 원리: 인코더(Encoder)와 디코더(Decoder)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5332e433-a5dc-4d6a-9bf1-83b721d3087d/Untitled.png)
+
+- 인코더의 마지막 레이어의 출력값을 매번 디코더의 레이어에 넣어주는 방식으로 동작
+- 하나의 디코더 레이어에선 두개의 Attention사용
+    
+    [ Self-Attention ]
+    
+    - 각 단어들이 서로가 서로에게 어떤 가중치를 가지는지 구함
+    
+    [ Encoder- Decoder Attention]
+    
+    - 인코더에 대한 정보를 어텐션
+    - 출력 되는 단어가 소스문장의 어떤 단어랑 연관이 있는지 구함
+    - ex) I am a teacher 에서 번역된 ‘선생님’이란 단어는 I, am, a, teacher 중에서 어떤 단어랑 가장 높은 연관성이 있는지 구한다
+- 트랜스포머에서는 **마지막 인코더 레이어의 출력**이 모든 디코더 레이어에 입력된다
+    - **n_layers = 4**일 때의 예시
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/124af090-ce96-4669-b0b8-01c6b70855b9/Untitled.png)
+        
+        - 일반적으로 인코더, 디코더 레이어 개수는 동일하게 맞춘다
+- 트랜스포머에서도 인코더와 디코더의 구조를 따른다
+    - 이때 **RNN 사용하지 않고, 인코더와 디코더를 다수 사용**한다는 점이 특징
+    - **<eos>가 나올 때까지** 디코더 여러번 사용
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0c23055f-91ce-4b46-87fc-4d28ce5c4552/Untitled.png)
+        
+        - RNN과 다르게 위치 정보를 한꺼번에 넣음 → 한번의 인코더를 거칠때마다 병렬적으로 출력값 구함 → 비교적 계산복잡도 낮게 형성
+
+### 트랜스포머의 동작 원리: 어텐션(Attention)
+
+- 인코더와 디코더는 **Multi-Head Attention 레이어**를 사용한다
+*Multi-Head Attention : 각 어텐션은 여러개의 Head를 가짐
+- 어텐션을 위한 **세 가지** 입력 요소
+    - 쿼리(Query) ]
+        - 물어보는 주체
+        - ex) i
+    - 키(Key)
+        - 물어보는 대상
+        - ex) i, am, a, teacher 각 단어
+    - 값(Value)
+        - Attention score 구한 뒤 value와 곱해서 결과적인 Attention value를 구함
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/56336261-6d38-435f-a377-b0581ec30dc9/Untitled.png)
+    
+    [ Scaled Dot-Product Attention ]
+    
+    - 행렬곱 → 스케일링 → 마스크 → 소프트맥스 취해서 비율 구함 → 확률값 * value값 → 가중치 적용된 Attention value 구함
+    
+    [ Multi-Head-Attention ]
+    
+    - h개의 서로 다른 value, key, query로 구분됨
+        - h개의 서로 다른 Attention 컨셉을 학습 → 더욱 다양한 특징을 학습할 수 있도록 유도해준다는 장점
+    - 각 head로부터 나온 Attention값들을 일렬로 Concat → Linear layer(행렬곱) → output
+    - 결과적으로 입력, 출력 Dimension 동일하게 나옴
+    
+    [ Multi-Head-Attention 레이어 수식 ]
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7c941f77-1772-42bf-9dce-2b79aa681923/Untitled.png)
+    
+    *Wo : output Matrix
+    
+
+### 트랜스포머의 동작 원리(하나의 단어): Query, Key, Value
+
+- 어텐션을 위해 쿼리, 키, 값이 필요
+- 각 단어의 임베딩을 이용해 생성할 수 있다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69aaa962-1266-4808-834d-4397e7499d2a/Untitled.png)
+    
+    - 논문에서는 임베딩차원을 512차원이라 언급
+    - 지금은 간단히 4차원에 head 2개라 가정
+    - (4 x 2) 가중치 matrix가 생성됨
+    - 쿼리, 키, 값은 2차원으로 생성됨( ∵ 4/2)
+
+### 트랜스포머의 동작 원리(하나의 단어): Scaled Dot-Product Attention
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/27da934d-14fa-4edd-b677-bf6bb99ab97/Untitled.png)
+
+[ I love you ]
+
+- i 와 각 key값 행렬곱 수행 →  Attention Energy값 구함 → 정규화를 위해 scaling factor로 나눔 → softmax 취함 → 나온 가중치값에 value 곱해서 모두 더함 → Attention value값 만들어짐
+
+### 트랜스포머의 동작 원리(행렬): Query, Key, Value
+
+- 실제로는 **행렬(matrix) 곱셈 연산**을 이용해 한꺼번에 연산 가능
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e977d50-29aa-48e1-b532-687f19026f99/Untitled.png)
+    
+    - I love you 문장, 4차원 → (3 x 4)행렬
+
+### 트랜스포머의 동작 원리(행렬): Scaled Dot-Product Attention
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ebd9174-e617-4b58-9cd8-f99c04b15dd6/Untitled.png)
+
+- 쿼리값을 한꺼번에 각 키값과 곱함 → Attention Energies의 행, 열이 단어의 개수와 동일한 크기를 가짐 → softmax 취함 → 가중치와 value값 곱함 →  Attention value matrix 생성
+- **마스크 행렬(mask matrix)**를 이용해 특정 단어는 무시할 수 있도록 한다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3e84d12e-7a9b-49e7-ad7e-eafdf4685a9e/Untitled.png)
+    
+    - Attention Energies와 같은 차원의 Mask Matrix를 만듦 → 각 원소 단위로 곱해줌 → 어떠한 단어는 참고하지 않도록 만들어준다 (특정 단어는 Attention하지 않도록 만듦)
+    - ex) I에 대해서 love 와 you는 무시하고 싶다면
+        - 마스크 값으로 **음수 무한**의 값을 넣어 softmax 함수의 출력이 0%에 가까워지도록 한다
+
+### 트랜스포머의 동작 원리: Multi-Head-Attention
+
+- 어텐션 수행한 n개의 head값들을 일렬로 Concat → 입력 dimension과 같아지게 된다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0359cd94-251f-45ff-bfe5-4b7d19ae2e0b/Untitled.png)
+    
+- MultiHead(Q, K, V)를 수행한 뒤에도 **차원(dimension)이 동일하게 유지**된다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ff3a21a7-a0c0-4ec7-88ed-b7c66085fe85/Untitled.png)
+    
+
+### 트랜스포머의 동작 원리: 어텐션(Attention)의 종류
+
+- 트랜스포머에서는 **세 가지 종류의 어텐션(Attention) 레이어**가 사용된다
+    - Multi-Head-Attention이 사용되는 위치에 따라 나뉜다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d95d2079-1914-4fc0-a54f-1238accb368e/Untitled.png)
+    
+    [ Encoder Self-Attention ]
+    
+    - 각 단어가 서로에게 어떠한 연관성을 가지는지 Attention을 통해 구하고, 전체 문장의  representation을 학습함
+    
+    [Masked Decoder Self-Attention ]
+    
+    - 출력 단어가 다른 모든 단어를 참고하는 것이 아닌, 앞쪽에 등장한 단어만 참고하도록 함
+    - 채팅이 아닌 정상적인 모델이 만들어질 수 있도록 함
+        - ex) ‘나는 축구를 했다’에서 ‘축구를’이 ‘했다’를 참고하면 채팅처럼 동작해버림
+    
+    [ Encoder-Decoder Attention ]
+    
+    - Query는 디코더에, Key와 Value는 인코더에 있는 상황을 의미
+    - 디코더의 Query값이 인코더의 Key, Value값을 참조
+
+### 트랜스포머의 동작 원리: Self-Attention
+
+- Self-Attention은 인코더와 디코더 모두에서 사용된다
+    - 매번 **입력 문장에서 각 단어가 다른 어떤 단어와 연관성이 높은 지** 계산할 수 있다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5733370-e34e-44ed-8dbd-86dcb0d20602/Untitled.png)
+    
+    - ‘it’을 출력한다면 ‘it’이 의미하는 단어는 ‘tree’와 ‘it’이 될 것
+        - 두 단어에서 더 높은 score를 가지는 방식으로 학습될 확률이 높다
+
+### 트랜스포머의 동작 원리: Positional Encoding
+
+- 위치 정보를 어떤 방식으로 넣을 지에 관함
+- **Positional Encoding**은 다음과 같은 주기 함수를 활용한 공식을 사용한다
+    - 각 단어의 **상대적인 위치 정보를 네트워크에 입력**한다
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7468120b-2325-412d-94cd-39caaf638b76/Untitled.png)
+    
+    * PE : Positional Encoding의 약자, pos : 각 단어 번호, i : 각 단어에 대한 임베딩 값의 위치
+    
+- 주기성을 학습할 수 있도록만 하면 어떤 함수든 사용할 수 있다
+- sin, cos 처럼 정해진 함수를 사용할 수도 있지만, 위치 임베딩 값을 따로 학습 시켜서 네트워크에 넣을 수 있다
+    - 원 논문에서 실제 해본 결과 sin, cos에 비해 성능 차이는 크게 없었다고 말함
+- Transformer 이후에 나온 다양한 아키텍처에서는 주기함수가 아닌 학습이 가능한 형태로 별도의 임베딩 레이어를 사용하기도 함
+
+[ 세부 내용 ]
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9cc5ab59-bb88-46f9-af5c-3d829dfff06e/Untitled.png)
+
+- dmodel 만큼의 임베딩 차원을 가짐(8차원)
+- ⭕ (pos, i) → (0, 3)
+    - 첫번째 단어의 4번째 임베딩이기 때문이다
+- 각 값들이 위의 함수에 들어가서 입력값과 정확히 동일한 dimension을 가지는 위치 인코딩을 만듦 → 각 원소 단위로 더함 → 인코더, 디코더 레이어의 입력값으로 사용됨
+
+- n과 dimension에 대해 각 단어의 위치에 대한 인코딩 정보가 들어가는 방식을 나타내 보았다
+
+    ![Untitled (28)](https://user-images.githubusercontent.com/108312195/195587568-416f2274-6150-490d-8089-147906b4b967.png)
