@@ -50,14 +50,14 @@
     - 병목현상이 발생 → 성능 하락의 원인이 됨
 - 한쪽의 Seq로부터 다른 한쪽의 Seq를 만든다는 의미에서 Seq2Seq라 함
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0c753d47-1e2e-43e3-9540-5335bf028890/Untitled.png)
+    ![Untitled (1)](https://user-images.githubusercontent.com/108312195/195586550-50c11d85-76b7-4ec6-9969-cab1d0daf110.png)
     
     - 가장 기본적인 형태의 Seq2Seq 모델 동작 원리
     - 단어가 입력될 때마다 hidden state를 갱신 → hidden state로부터 출력값이 end of Sequence가 나올 때까지 반복 → 출력 문장 생성 완료
     - 입력 문장의 길이 길수도, 짧을수도 → 다양한 경우의 수에 대해서 항상 소스 문장의 정보를 고정된 크기로 갖고 있는 것 → 병목현상의 원인
         - 개선 아이디어
             
-            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ecfb7077-497f-4d48-815f-98efef947f1d/Untitled.png)
+            ![Untitled (2)](https://user-images.githubusercontent.com/108312195/195586599-f1355620-4f8d-4731-9b9a-d3165f012267.png)
             
             - Decoder가 context vector를 매번 참고할 수도 있다
                 - context vector에 대한 정보가 RNN셀을 거침에 따라서 정보가 손실 되는 정도를 줄일 수 있다
@@ -77,7 +77,7 @@
 - Seq2Seq 모델에 **Attention** 메커니즘을 사용
     - 디코더는 **인코더의 모든 출력(outputs)을 참고**한다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ca273771-187b-4caf-b4d4-b01693fc37fd/Untitled.png)
+    ![Untitled (3)](https://user-images.githubusercontent.com/108312195/195586645-6a636456-5ca9-4c80-90ec-3752627efd47.png)
     
     - 출력할 때마다 소스문장에서 나왔던 모든 출력값들을 모두 참고함
     
@@ -91,7 +91,7 @@
     - i = 현재의 디코더가 처리 중인 인덱스
     - j = 각각의 인코더 출력 인덱스
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/063a7a87-5019-4e79-9f0f-33f205e5abee/Untitled.png)
+        ![Untitled (4)](https://user-images.githubusercontent.com/108312195/195586722-bf1467e3-cae8-4fbd-8353-91e9fd7a44f9.png)
         
         [ 에너지 ]
         
@@ -109,7 +109,7 @@
 - Attention의 또 다른 장점 : 시각화 가능
 - 어텐션 가중치를 사용해 각 출력이 어떤 입력 정보를 참고했는지 알 수 있다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/225d7a6c-aac0-4a6f-bed2-23c6c0a7c23f/Untitled.png)
+    ![Untitled (5)](https://user-images.githubusercontent.com/108312195/195586755-e37e7f50-4c33-4cd0-8e4f-139775e44ce7.png)
     
     - 밝게 표시된 부분이 확률값이 높은 부분
     - 딥러닝이 어떤 요소에 초점을 두고 분류, 생성했는지 알기에 유용하다
@@ -123,30 +123,30 @@
 - 인코더와 디코더로 구성된다
     - Attention 과정을 여러 레이어에서 반복한다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1750fef3-106e-4b33-a169-3fc79440303c/Untitled.png)
+    ![Untitled (6)](https://user-images.githubusercontent.com/108312195/195586889-de7af58f-6db6-4111-bd8a-e4b6be4313b0.png)
     
 
 ### 트랜스포머의 동작 원리: 입력 값 임베딩(Embeding)
 
 - 트랜스포머 이전의 **전통적인 임베딩**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/463ebfd5-0ba9-492a-85e2-c4b66f878cc8/Untitled.png)
+    ![Untitled (7)](https://user-images.githubusercontent.com/108312195/195586900-f793477f-cebd-4f57-8dca-64216fd5d2ec.png)
     
 - RNN을 사용하지 않으려면 위치 정보를 포함하고 있는 임베딩을 사용해야 함
     - 이를 위해 **Positional Encoding** 사용
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/986405e6-b67b-4c80-92d1-1e491a0237d8/Untitled.png)
+        ![Untitled (8)](https://user-images.githubusercontent.com/108312195/195586930-07bf6c85-fb44-4785-81ac-558f12de866b.png)
         
 
 ### 트랜스포머의 동작 원리: 인코더(Encoder)
 
 - 임베딩 끝난 후 **Attention 진행**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47c34b93-edc1-4052-9bc0-2d77f549f8e6/Untitled.png)
+    ![Untitled (9)](https://user-images.githubusercontent.com/108312195/195586958-e5ad2200-1373-4e4e-a536-c9377fc423c3.png)
     
 - 성능 향상을 위해 **잔여 학습(Residual Learning)** 사용
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/855777ec-9c8b-4c09-b2c4-bae371987db5/Untitled.png)
+    ![Untitled (10)](https://user-images.githubusercontent.com/108312195/195586986-87cb57c3-6b3c-4fb6-a730-18137b053d89.png)
     
     - 특정 레이어를 건너뛰어서 복사된 값을 그대로 넣어주는 기법
     - 기존 정보 입력받으면서, 잔여된 부분만 학습 → 학습 난이도 낮다 → 초기 모델 수렴 속도 빨라짐
@@ -156,13 +156,13 @@
     - 여러 레이어 중첩
     - **각 레이어는 서로 다른 파라미터**를 가진다
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/994180c7-fb8f-4fb1-8491-bdbddf685cbf/Untitled.png)
+        ![Untitled (11)](https://user-images.githubusercontent.com/108312195/195587031-40f2359c-d2e2-40d8-9cfb-6a07eae0f60a.png)
         
     - 입력과 출력의 Dimension은 동일
 
 ### 트랜스포머의 동작 원리: 인코더(Encoder)와 디코더(Decoder)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5332e433-a5dc-4d6a-9bf1-83b721d3087d/Untitled.png)
+![Untitled (12)](https://user-images.githubusercontent.com/108312195/195587062-d6acf2ae-fcd0-4d69-b460-bb84dd835045.png)
 
 - 인코더의 마지막 레이어의 출력값을 매번 디코더의 레이어에 넣어주는 방식으로 동작
 - 하나의 디코더 레이어에선 두개의 Attention사용
@@ -179,14 +179,14 @@
 - 트랜스포머에서는 **마지막 인코더 레이어의 출력**이 모든 디코더 레이어에 입력된다
     - **n_layers = 4**일 때의 예시
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/124af090-ce96-4669-b0b8-01c6b70855b9/Untitled.png)
+        ![Untitled (13)](https://user-images.githubusercontent.com/108312195/195587083-579f65b8-30ae-41be-92bd-e2a3cef522c7.png)
         
         - 일반적으로 인코더, 디코더 레이어 개수는 동일하게 맞춘다
 - 트랜스포머에서도 인코더와 디코더의 구조를 따른다
     - 이때 **RNN 사용하지 않고, 인코더와 디코더를 다수 사용**한다는 점이 특징
     - **<eos>가 나올 때까지** 디코더 여러번 사용
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0c23055f-91ce-4b46-87fc-4d28ce5c4552/Untitled.png)
+        ![Untitled (14)](https://user-images.githubusercontent.com/108312195/195587115-70574cc2-edc9-4e22-8d16-f11c5dcc25fc.png)
         
         - RNN과 다르게 위치 정보를 한꺼번에 넣음 → 한번의 인코더를 거칠때마다 병렬적으로 출력값 구함 → 비교적 계산복잡도 낮게 형성
 
@@ -204,7 +204,7 @@
     - 값(Value)
         - Attention score 구한 뒤 value와 곱해서 결과적인 Attention value를 구함
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/56336261-6d38-435f-a377-b0581ec30dc9/Untitled.png)
+    ![Untitled (15)](https://user-images.githubusercontent.com/108312195/195587145-46c569d2-5c57-4010-839e-139f3a5e293c.png)
     
     [ Scaled Dot-Product Attention ]
     
@@ -219,7 +219,7 @@
     
     [ Multi-Head-Attention 레이어 수식 ]
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7c941f77-1772-42bf-9dce-2b79aa681923/Untitled.png)
+    ![Untitled (16)](https://user-images.githubusercontent.com/108312195/195587165-69615d5e-d5de-4700-9e90-6109c6e70b81.png)
     
     *Wo : output Matrix
     
@@ -229,7 +229,7 @@
 - 어텐션을 위해 쿼리, 키, 값이 필요
 - 각 단어의 임베딩을 이용해 생성할 수 있다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69aaa962-1266-4808-834d-4397e7499d2a/Untitled.png)
+    ![Untitled (17)](https://user-images.githubusercontent.com/108312195/195587201-7f72146c-83dc-43ba-ba21-d49783fca1d2.png)
     
     - 논문에서는 임베딩차원을 512차원이라 언급
     - 지금은 간단히 4차원에 head 2개라 가정
@@ -238,7 +238,7 @@
 
 ### 트랜스포머의 동작 원리(하나의 단어): Scaled Dot-Product Attention
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/27da934d-14fa-4edd-b677-bf6bb99ab97/Untitled.png)
+![Untitled (18)](https://user-images.githubusercontent.com/108312195/195587236-fdb8daa3-eeb4-4b7d-875e-446b0d9af115.png)
 
 [ I love you ]
 
@@ -248,18 +248,18 @@
 
 - 실제로는 **행렬(matrix) 곱셈 연산**을 이용해 한꺼번에 연산 가능
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e977d50-29aa-48e1-b532-687f19026f99/Untitled.png)
+    ![Untitled (19)](https://user-images.githubusercontent.com/108312195/195587268-87cb0809-a07c-4772-b78b-d86ed42ffd43.png)
     
     - I love you 문장, 4차원 → (3 x 4)행렬
 
 ### 트랜스포머의 동작 원리(행렬): Scaled Dot-Product Attention
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ebd9174-e617-4b58-9cd8-f99c04b15dd6/Untitled.png)
+![Untitled (20)](https://user-images.githubusercontent.com/108312195/195587300-7f978029-6b0f-47da-b17b-8a638fc176b3.png)
 
 - 쿼리값을 한꺼번에 각 키값과 곱함 → Attention Energies의 행, 열이 단어의 개수와 동일한 크기를 가짐 → softmax 취함 → 가중치와 value값 곱함 →  Attention value matrix 생성
 - **마스크 행렬(mask matrix)**를 이용해 특정 단어는 무시할 수 있도록 한다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3e84d12e-7a9b-49e7-ad7e-eafdf4685a9e/Untitled.png)
+    ![Untitled (21)](https://user-images.githubusercontent.com/108312195/195587325-6a2e9abb-c751-4d83-b521-d58ae84deeaf.png)
     
     - Attention Energies와 같은 차원의 Mask Matrix를 만듦 → 각 원소 단위로 곱해줌 → 어떠한 단어는 참고하지 않도록 만들어준다 (특정 단어는 Attention하지 않도록 만듦)
     - ex) I에 대해서 love 와 you는 무시하고 싶다면
@@ -269,11 +269,11 @@
 
 - 어텐션 수행한 n개의 head값들을 일렬로 Concat → 입력 dimension과 같아지게 된다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0359cd94-251f-45ff-bfe5-4b7d19ae2e0b/Untitled.png)
+    ![Untitled (22)](https://user-images.githubusercontent.com/108312195/195587349-6563bac0-c41f-483a-aee7-54fb6b3b380f.png)
     
 - MultiHead(Q, K, V)를 수행한 뒤에도 **차원(dimension)이 동일하게 유지**된다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ff3a21a7-a0c0-4ec7-88ed-b7c66085fe85/Untitled.png)
+    ![Untitled (23)](https://user-images.githubusercontent.com/108312195/195587369-61fafdf6-d034-4fae-b716-2863ed140a75.png)
     
 
 ### 트랜스포머의 동작 원리: 어텐션(Attention)의 종류
@@ -281,7 +281,7 @@
 - 트랜스포머에서는 **세 가지 종류의 어텐션(Attention) 레이어**가 사용된다
     - Multi-Head-Attention이 사용되는 위치에 따라 나뉜다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d95d2079-1914-4fc0-a54f-1238accb368e/Untitled.png)
+    ![Untitled (24)](https://user-images.githubusercontent.com/108312195/195587447-5de10770-eeae-4760-b07f-f23dd5befd5b.png)
     
     [ Encoder Self-Attention ]
     
@@ -303,7 +303,7 @@
 - Self-Attention은 인코더와 디코더 모두에서 사용된다
     - 매번 **입력 문장에서 각 단어가 다른 어떤 단어와 연관성이 높은 지** 계산할 수 있다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5733370-e34e-44ed-8dbd-86dcb0d20602/Untitled.png)
+    ![Untitled (25)](https://user-images.githubusercontent.com/108312195/195587487-e6522143-422c-49dd-847b-4bcca29529dd.png)
     
     - ‘it’을 출력한다면 ‘it’이 의미하는 단어는 ‘tree’와 ‘it’이 될 것
         - 두 단어에서 더 높은 score를 가지는 방식으로 학습될 확률이 높다
@@ -314,7 +314,7 @@
 - **Positional Encoding**은 다음과 같은 주기 함수를 활용한 공식을 사용한다
     - 각 단어의 **상대적인 위치 정보를 네트워크에 입력**한다
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7468120b-2325-412d-94cd-39caaf638b76/Untitled.png)
+    ![Untitled (26)](https://user-images.githubusercontent.com/108312195/195587512-bca4f5ab-434d-4f4a-b423-ab9880aa9021.png)
     
     * PE : Positional Encoding의 약자, pos : 각 단어 번호, i : 각 단어에 대한 임베딩 값의 위치
     
@@ -325,7 +325,7 @@
 
 [ 세부 내용 ]
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9cc5ab59-bb88-46f9-af5c-3d829dfff06e/Untitled.png)
+![Untitled (27)](https://user-images.githubusercontent.com/108312195/195587541-98581b59-a92c-4406-98db-169af61c954a.png)
 
 - dmodel 만큼의 임베딩 차원을 가짐(8차원)
 - ⭕ (pos, i) → (0, 3)
