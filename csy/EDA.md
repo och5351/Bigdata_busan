@@ -2,7 +2,7 @@
 
 ## description
 
-[공정 환경변수 csv]
+* [공정 환경변수 csv]
 
 column 수 6개, row 수 50,094개, 데이터수 300,564개
 
@@ -15,9 +15,9 @@ column 수 6개, row 수 50,094개, 데이터수 300,564개
 | Temp | 전처리 설비 내 공정 온도 측정값 | float |
 | Voltage | 전처리 설비 내 공정 전압 측정값 | float |
 
-![image](https://user-images.githubusercontent.com/108312195/196313676-8270e19e-e6b1-475e-a4ef-1b0e19338d31.png)
+![image](https://user-images.githubusercontent.com/108312195/196318990-3cf33cc9-880d-4bfa-bfaa-5c4a496a3358.png)
 
-[Error Lot list csv]
+* [Error Lot list csv]
 
 column 수 3개, row 수 33개, 데이터수 99개
 
@@ -27,9 +27,9 @@ column 수 3개, row 수 33개, 데이터수 99개
 | 1 | LoT 추적을 위해 각 LoT 별로 부여 (Error난 LoT 번호) | int |
 | 2 | LoT 추적을 위해 각 LoT 별로 부여 (Error난 LoT 번호) | int |
 
-![image](https://user-images.githubusercontent.com/108312195/196315814-2c1c7cac-6b8e-4408-9601-6cc2a47bd6fc.png)
+![image](https://user-images.githubusercontent.com/108312195/196319063-0614a961-03d4-49b3-ac0e-1c5942c76a42.png)
 
-[정상 이미지 png]
+* [정상 이미지 png]
 
 정상 이미지 1,387개, 불량 이미지 74개, 데이터수 1,452개
 
