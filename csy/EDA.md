@@ -1,6 +1,4 @@
-# 탐색적 데이터 분석
-
-## description
+# 데이터셋 description
 
 * [공정 환경변수 csv]
 
