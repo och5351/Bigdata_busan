@@ -40,4 +40,4 @@ Issue를 작성할 때는 제목에 반드시 태그를 작성 합니다. 태그
 
 <br>
 
-- <a href='https://github.com/och5351/BIGDATA_BUSAN/blob/main/och/gitignore.md'> 활용법 설명 링크 </a>
+- <a href='https://github.com/och5351/Bigdata_busan/blob/develop/och/gitignore.md'> 활용법 설명 링크 </a>
