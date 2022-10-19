@@ -1,13 +1,11 @@
-from flask import Blueprint, Flask, render_template
+from flask import Blueprint, Flask, render_template, flash, request, session
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import redirect
 
-from pybo.models import User
+from dogma.models import User
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
-@bp.route('/hello')
-def hello_dogma():
-    return 'Hello, Dogma!'
-
 @bp.route('/')
-def index():
-    return 'Dogma index'
+def hello():
+    return render_template('main/main.html')

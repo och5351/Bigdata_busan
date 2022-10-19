@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h5>로그인</h5>
+    <form method="post">
+        {{ form.csrf_token }}
+        {% include "form_errors.html" %}
+        <div>
+            <label for="username">이름</label>
+            <input type="text" name="username" id="username"
+                    value="{{ form.username.data or '' }}">
+        </div>
+        <div>
+            <label for="password">비밀번호</label>
+            <input type="password" name="password" id="password"
+                    value="{{ form.password.data or '' }}">
+        </div>
+        <button type="submit">로그인</button>
+    </form>
+</div>
+{% endblock %}
