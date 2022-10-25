@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = {
     'user'      : 'dogma',
     'password'  : 'Dogma7789',
