@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = {
     'user'      : 'dogma',
-    'password'  : 'Dogma7789',
+    'password'  : 'Dogma7789!',
     'host'      : '54.180.131.194',
     'port'      : '3306',
     'database'  : 'auth'
