@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, abort, redirect, request, session
+from flask import Blueprint, Flask, abort, redirect, request, session, url_for
 
 from google_auth_oauthlib.flow import Flow
 import os, pathlib
@@ -55,7 +55,7 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    return redirect("protected_area")
+    return redirect(url_for('main.main'))
 
 @bp.route("/logout")
 def logout():
