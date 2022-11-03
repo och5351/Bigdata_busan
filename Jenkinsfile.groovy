@@ -21,7 +21,7 @@
 //   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 // }
 
-node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
+node('master') {  // 상위에 node 작성 'jenkins-slave-pod' 
     try {
         // Start alert
         // stage('Start alert'){
