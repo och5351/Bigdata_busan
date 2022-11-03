@@ -20,9 +20,9 @@
 //   def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
 //   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 // }
-{
-    node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
-      try {
+
+node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
+    try {
         // Start alert
         // stage('Start alert'){
         //   notifyCommon(SLACK_CHANNEL,'Webhook을 감지하여 CI/CD 를 실행합니다.')
@@ -41,10 +41,10 @@
         //   notifyCommon(SLACK_CHANNEL, 'test alarm for slack')
         // }
         // notifySuccessful(SLACK_CHANNEL)
-      } catch(e) {
+    } catch(e) {
         /* 배포 실패 시 */
         currentBuild.result = "FAILED"
         // notifyFailed(SLACK_CHANNEL)
     }
-  }
 }
+
