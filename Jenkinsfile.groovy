@@ -6,26 +6,26 @@ def DATE = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone
 // /* Slack 메시지 알람 함수 */
 def notifyCommon(slack_channel, message) {
   def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
-  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message} ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message} ${DD} \n TASK : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 // /* Slack 성공 알람 함수 */
 def notifySuccessful(slack_channel) {
   def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
-  slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  slackSend (channel: "${slack_channel}", color: '#00FF00', message: "Complete a CI/CD. ${DD} \n TASK : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 // /* Slack 실패 알람 함수 */
 def notifyFailed(slack_channel) {
   def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
-  slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  slackSend (channel: "${slack_channel}", color: '#FF0000', message: "Failure a CI/CD. ${DD} \n TASK : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 node('master') {  // 상위에 node 작성 'jenkins-slave-pod' 
     try {
         // Start alert
         stage('Start alert'){
-          notifyCommon(SLACK_CHANNEL,'Webhook을 감지하여 Repository 를 복제 합니다.')
+          notifyCommon(SLACK_CHANNEL,'Clone repository from git')
         }
         // git clone 스테이지
         stage('Clone repository') {
@@ -33,7 +33,7 @@ node('master') {  // 상위에 node 작성 'jenkins-slave-pod'
         }
         // slack alarm
         stage('Git pull done') {
-          notifyCommon(SLACK_CHANNEL, 'Repository Clone을 완료하였습니다..')
+          notifyCommon(SLACK_CHANNEL, 'Complete a Clone')
         }
         // stage('test') {
         //   notifyCommon(SLACK_CHANNEL, 'test alarm for slack')
