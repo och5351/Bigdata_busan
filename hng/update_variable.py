@@ -98,3 +98,10 @@ def MergeFrame(var_dir, var_list):
 
 variable_df = MergeFrame(root_dir, varfilelist)
 print(variable_df)
+
+
+
+'''
+3. Airflow 스케줄러 DAG 작성
+위의 과정을 스케줄로 할 수 있게 만든다
+'''
