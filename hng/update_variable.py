@@ -31,6 +31,7 @@ from sqlalchemy import Table, MetaData
 from sqlalchemy import insert, update
 
 
+
 '''
 1. SQL Alchemy 연결
 '''
@@ -43,6 +44,7 @@ def MySQL_connect(user, password, db, host, port=3306):
 engine = MySQL_connect('sixdogma', 'Poiu0987*', 'Anay', '54.250.124.140')
 
 engine.execute("SET GLOBAL event_scheduler = ON;")
+
 
 
 '''
@@ -58,15 +60,6 @@ varfilelist = [file for file in varfilelist if file.endswith('.csv')]
 '''
 2. 전처리 함수 만들기
 '''
-# csv 파일 경로 세팅 => 추후 linux file system 경로로 수정
-# root_dir : 기본 경로
-root_dir = r'C:\Users\admin\Desktop\FinalProject\chromate\chromate_data\variable\\'
-# varfilelist : 기본 경로 안의 csv 파일 목록들
-varfilelist = natsort.natsorted(os.listdir(root_dir))
-varfilelist = [file for file in varfilelist if file.endswith('.csv')]
-varfilelist[:5]
-
-
 # (1) csv 파일 하나 단위당 전처리하는 코드
 def PreProcessing(var_dir, var_list):
     df = pd.read_csv(os.path.join(var_dir, var_list), engine='pyarrow')
@@ -87,6 +80,7 @@ def PreProcessing(var_dir, var_list):
     df['Time'] = adj_time
     
     return df
+
 
 # (2) csv 파일 전부 merge하고 정리하는 코드 
 def MergeFrame(var_dir, var_list):
