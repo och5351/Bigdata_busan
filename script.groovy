@@ -16,7 +16,7 @@ node('master') {
 
         //
         stage('Build'){
-
+            checkout([$class: 'GitSCM', branches: [[name: '*/develop/feature/#63']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/och5351/Bigdata_busan.git']]])
         }
         
         stage('test'){
