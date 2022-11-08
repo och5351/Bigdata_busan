@@ -1,5 +1,5 @@
 // slack 채널 변수
-def SLACK_CHANNEL = "devops"
+def SLACK_CHANNEL = "jenkins"
 
 // 함수
 def notifyCommon(slack_channel, message) {
