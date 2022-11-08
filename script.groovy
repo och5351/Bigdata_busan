@@ -26,6 +26,8 @@ node('master') {
         stage('deploy'){
 
         }
+    } catch(e) {
+        currentBuild.result = "FAILED"
     }
 }
 
