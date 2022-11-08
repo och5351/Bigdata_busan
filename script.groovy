@@ -6,25 +6,29 @@ def notifyCommon(slack_channel, message) {
     slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message}")
 }
 
+def remote = [:]
+remote.name = 'ubuntu'
+remote.host = '54.180.131.194'
+remote.allowAnyHosts = true
 
 node('master') {
     try {
         //
-        stage('Start alert'){
-            notifyCommon(SLACK_CHANNEL, 'Clone Repository from git')
-        }
+        // stage('Start alert'){
+        //     notifyCommon(SLACK_CHANNEL, 'Clone Repository from git')
+        // }
 
         //
         stage('Build'){
             checkout scm
-
-            sh 'cd venvs'
-            sh '. dogma.sh'
-
-            sh 'cd ~/projects/Bigdata_busan'
-            sh 'git pull'
         }
-        
+
+        remote.user = 'root'        
+        stage('Remote SSH') {
+            writeFile file: 'abc.sh', text: 'ls -lrt'
+            sshScript remote : remote, script: "abc.sh"
+        }
+
         stage('test'){
 
         }
