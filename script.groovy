@@ -17,6 +17,7 @@ node('master') {
         //
         stage('Build'){
             checkout scm
+        }
         
         stage('test'){
 
