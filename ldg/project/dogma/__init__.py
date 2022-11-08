@@ -18,8 +18,8 @@ def create_app():   # app 실행 함수
 
     # 블루프린트
     from .views import main_views, auth_views, oauth_views
-    app.register_blueprint(main_views.bp)
     app.register_blueprint(auth_views.bp)
+    app.register_blueprint(main_views.bp)
     app.register_blueprint(oauth_views.bp)
 
     return app

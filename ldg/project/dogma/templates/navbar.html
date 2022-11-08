@@ -1,7 +1,7 @@
 <!-- 네비게이션바 -->
 <nav>
     <div>
-        <a href="{{ url_for('main.hello') }}">Dogma</a>
+        <a href="{{ url_for('main.main') }}">Dogma</a>
         <button type="button">
             <span></span>
         </button>
@@ -10,6 +10,12 @@
             <ul>
                 <li>
                     <a href="{{ url_for('auth.logout') }}">{{ g.user.username }} (Logout)</a>
+                </li>
+            </ul>
+            {% elif session['google_id'] %}
+            <ul>
+                <li>
+                    <a href="{{ url_for('oauth.logout') }}">{{ session['name'] }} (Logout)</a>
                 </li>
             </ul>
             {% else %}
