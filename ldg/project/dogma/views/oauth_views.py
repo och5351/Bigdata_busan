@@ -12,6 +12,8 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 # 구글 Oauth 설정
 GOOGLE_CLIENT_ID = "167648320999-47vq0ttrba3igorui2h372vhjbqcnp89.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "C:\localRepository\Bigdata_busan\ldg\project\dogma\static\client_secret.json")
+# 서버 파일 경로
+# client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "/home/ubuntu/projects/Bigdata_busan/ldg/project/dogma/static/client_secret.json")
 
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
