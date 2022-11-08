@@ -17,6 +17,12 @@ node('master') {
         //
         stage('Build'){
             checkout scm
+
+            sh 'cd venvs'
+            sh '. dogma.sh'
+
+            sh 'cd ~/projects/Bigdata_busan'
+            sh 'git pull'
         }
         
         stage('test'){
