@@ -29,7 +29,7 @@ node('master') {
         }
       
         stage('Remote SSH') {
-            sshCommand remote : remote, command: 'git pull'
+            sshCommand remote : remote, command: 'sudo git pull'
             // writeFile file: 'abc.sh', text: 'ls -lrt'
             // sshScript remote : remote, script: "abc.sh"
         }
