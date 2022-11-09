@@ -19,8 +19,9 @@ node('master') {
         // }
 
         //
-        stage('Clone')
+        stage('Clone'){
             checkout scm
+        }
 
         stage('Build'){
             echo 'Building...'
