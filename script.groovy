@@ -10,6 +10,7 @@ def remote = [:]
 remote.name = 'ubuntu'
 remote.host = '54.180.131.194'
 remote.allowAnyHosts = true
+remote.user = 'ubuntu'
 
 node('master') {
     try {
@@ -26,12 +27,11 @@ node('master') {
         stage('Build'){
             echo 'Building...'
         }
-
-        // remote.user = ubuntu        
-        // stage('Remote SSH') {
-        //     writeFile file: 'abc.sh', text: 'ls -lrt'
-        //     sshScript remote : remote, script: "abc.sh"
-        // }
+      
+        stage('Remote SSH') {
+            writeFile file: 'abc.sh', text: 'ls -lrt'
+            sshScript remote : remote, script: "abc.sh"
+        }
 
         stage('test'){
 
