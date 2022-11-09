@@ -29,8 +29,9 @@ node('master') {
         }
       
         stage('Remote SSH') {
-            writeFile file: 'abc.sh', text: 'ls -lrt'
-            sshScript remote : remote, script: "abc.sh"
+            sshCommand remote : remote, command: 'git pull'
+            // writeFile file: 'abc.sh', text: 'ls -lrt'
+            // sshScript remote : remote, script: "abc.sh"
         }
 
         stage('test'){
