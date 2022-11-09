@@ -19,11 +19,14 @@ node('master') {
         // }
 
         //
-        stage('Build'){
+        stage('Clone')
             checkout scm
+
+        stage('Build'){
+            echo 'Building...'
         }
 
-        remote.user = 'root'        
+        remote.user = ubuntu        
         stage('Remote SSH') {
             writeFile file: 'abc.sh', text: 'ls -lrt'
             sshScript remote : remote, script: "abc.sh"
