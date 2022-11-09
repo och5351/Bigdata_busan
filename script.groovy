@@ -27,11 +27,11 @@ node('master') {
             echo 'Building...'
         }
 
-        remote.user = ubuntu        
-        stage('Remote SSH') {
-            writeFile file: 'abc.sh', text: 'ls -lrt'
-            sshScript remote : remote, script: "abc.sh"
-        }
+        // remote.user = ubuntu        
+        // stage('Remote SSH') {
+        //     writeFile file: 'abc.sh', text: 'ls -lrt'
+        //     sshScript remote : remote, script: "abc.sh"
+        // }
 
         stage('test'){
 
