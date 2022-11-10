@@ -29,11 +29,11 @@ node('master') {
             echo 'Building...'
         }
       
-        stage('Remote SSH') {
-            sshCommand remote: remote, command: 'echo pwd'
-            // writeFile file: 'abc.sh', text: 'ls -lrt'
-            // sshScript remote : remote, script: "abc.sh"
-        }
+        // stage('Remote SSH') {
+        //     sshCommand remote: remote, command: 'echo pwd'
+        //     // writeFile file: 'abc.sh', text: 'ls -lrt'
+        //     // sshScript remote : remote, script: "abc.sh"
+        // }
 
         stage('test'){
 
