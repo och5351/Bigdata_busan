@@ -9,6 +9,7 @@ def notifyCommon(slack_channel, message) {
 def remote = [:]
 remote.name = 'ubuntu'
 remote.host = '54.180.131.194'
+// remote.password = 'password'
 remote.allowAnyHosts = true
 remote.user = 'ubuntu'
 
@@ -29,7 +30,7 @@ node('master') {
         }
       
         stage('Remote SSH') {
-            sshCommand remote : remote, command: 'sudo mkdir /test'
+            sshCommand remote: remote, command: 'echo pwd'
             // writeFile file: 'abc.sh', text: 'ls -lrt'
             // sshScript remote : remote, script: "abc.sh"
         }
