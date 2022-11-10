@@ -21,7 +21,8 @@ def notifyFailed(slack_channel) {
   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "Failure a CI/CD. ${DD} \n TASK : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
-node('Built-In Node') {
+//node('Built-In Node') {
+pipeline{
     try {
         // Start alert
         stage('Start alert'){
