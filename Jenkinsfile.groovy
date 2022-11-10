@@ -23,6 +23,10 @@ def notifyFailed(slack_channel) {
 
 //node('Built-In Node') {
 pipeline{
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
     try {
         // Start alert
         stage('Start alert'){
