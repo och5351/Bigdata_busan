@@ -21,7 +21,7 @@ def notifyFailed(slack_channel) {
   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "Failure a CI/CD. ${DD} \n TASK : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
-node('master') {  // 상위에 node 작성 'jenkins-slave-pod' 
+node('Built-In') {  // 상위에 node 작성 'jenkins-slave-pod' 
     try {
         // Start alert
         stage('Start alert'){
