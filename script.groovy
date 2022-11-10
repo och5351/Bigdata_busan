@@ -13,7 +13,7 @@ remote.host = '54.180.131.194'
 remote.allowAnyHosts = true
 remote.user = 'ubuntu'
 
-node('master') {
+node {
     try {
         //
         // stage('Start alert'){
