@@ -30,7 +30,7 @@ node {
         }
       
         // stage('Remote SSH') {
-            sshCommand remote: remote, command: 'sh "mkdir ~/test"'
+        //     sshCommand remote: remote, command: 'sh "mkdir ~/test"'
         //     // writeFile file: 'abc.sh', text: 'ls -lrt'
         //     // sshScript remote : remote, script: "abc.sh"
         // }
