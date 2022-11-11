@@ -48,8 +48,7 @@ node {
             }
 
 
-        }
-    } catch(e) {
+        } catch(e) {
         currentBuild.result = "FAILED"
     }
 }
