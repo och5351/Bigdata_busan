@@ -85,6 +85,9 @@ def PreProcessing(root_dir, var_list):
         tmp = ':'.join(tmp).split('.')[0]
         adj_time.append(tmp)
     df['Time'] = adj_time
+
+    # (1)-3 스케줄링을 위해서는 유니크 컬럼이 필요 : 'Date'와 'Time' 합쳐서 'DateTime' 컬럼 만들기 (Date는 에러 로트 파일과 연관되므로 없애지 않는다)
+    df['DateTime'] = df['Date'] + ' ' + df['Time']
     
     return df
 
