@@ -41,12 +41,12 @@ node {
             // sh ('ssh ubuntu@ec2 "mkdir test"')
             // sh ('ssh ubuntu@ec2 "cd test"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
-            sh ('ssh ubuntu@ec2 "cd ~/projects/Bigdata_busan/ldg/project"')
+            // sh ('ssh ubuntu@ec2 "cd ~/projects/Bigdata_busan/ldg/project"')
             sh ('ssh ubuntu@ec2 "pwd"')
             sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
             sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
             sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
-            sh ('ssh ubuntu@ec2 "git pull"')
+            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd"')
         }
 
         stage('deploy'){
