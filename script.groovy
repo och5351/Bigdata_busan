@@ -38,7 +38,11 @@ node {
         // }
 
         stage('test'){
-            sh ('ssh ubuntu@ec2 "mkdir test"')
+            // sh ('ssh ubuntu@ec2 "mkdir test"')
+            // sh ('ssh ubuntu@ec2 "cd test"')
+            sh ('ssh ubuntu@ec2 "cd venvs"')
+            sh ('ssh ubuntu@ec2 ". dogma.sh"')
+            sh ('ssh ubuntu@ec2 "git pull"')
         }
 
         stage('deploy'){
