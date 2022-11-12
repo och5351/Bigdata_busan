@@ -38,7 +38,7 @@ node {
         // }
 
         stage('test'){
-            // sh ('ssh ubuntu@ec2 "cd test"')
+            // sh ('ssh ubuntu@ec2 "cd"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
             // sh ('ssh ubuntu@ec2 "cd ~/projects/Bigdata_busan/ldg/project"')
             sh ('ssh ubuntu@ec2 "pwd"')
