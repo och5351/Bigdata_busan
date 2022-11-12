@@ -40,8 +40,12 @@ node {
         stage('test'){
             // sh ('ssh ubuntu@ec2 "mkdir test"')
             // sh ('ssh ubuntu@ec2 "cd test"')
-            sh ('ssh ubuntu@ec2 "cd venvs"')
-            sh ('ssh ubuntu@ec2 ". dogma.sh"')
+            sh ('ssh ubuntu@ec2 "cd venvs/dogma/bin"')
+            sh ('ssh ubuntu@ec2 "cd . activate"')
+            sh ('ssh ubuntu@ec2 "cd ~/projects/Bigdata_busan/ldg/project"')
+            sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
+            sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
+            sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
             sh ('ssh ubuntu@ec2 "git pull"')
         }
 
