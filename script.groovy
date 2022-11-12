@@ -46,7 +46,7 @@ node {
             sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
             sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
             sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
-            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd"')
+            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd && git pull"')
         }
 
         stage('deploy'){
