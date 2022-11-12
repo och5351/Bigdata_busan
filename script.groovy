@@ -38,7 +38,7 @@ node {
         // }
 
         stage('test'){
-
+            sh ("whoami")
         }
 
         stage('deploy'){
