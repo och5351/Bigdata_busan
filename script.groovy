@@ -38,7 +38,7 @@ node {
         // }
 
         stage('test'){
-            sh ("whoami")
+            sh ('ssh ubuntu@ec2 "mkdir test"')
         }
 
         stage('deploy'){
