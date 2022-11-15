@@ -1,0 +1,33 @@
+<!-- 네비게이션바 -->
+<nav>
+    <div>
+        <a href="{{ url_for('main.main') }}">Dogma</a>
+        <button type="button">
+            <span></span>
+        </button>
+        <div>
+            {% if g.user %}
+            <ul>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}">{{ g.user.username }} (Logout)</a>
+                </li>
+            </ul>
+            {% elif session['google_id'] %}
+            <ul>
+                <li>
+                    <a href="{{ url_for('oauth.logout') }}">{{ session['name'] }} (Logout)</a>
+                </li>
+            </ul>
+            {% else %}
+            <ul>
+                <li>
+                    <a href="{{ url_for('auth.signup') }}">Sign Up</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('auth.login') }}">Login</a>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
