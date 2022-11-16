@@ -6,6 +6,10 @@ from keras.preprocessing import image
 from keras import utils
 
 import numpy as np
+from datetime import datetime
+
+from dogma.models import Imginfo
+from dogma import db
 
 dic = {0: '정상', 1: '불량'}
 
@@ -33,13 +37,17 @@ def main():
 @bp.route('/submit/', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        global pred
-        global img_path
-        img = request.files['my_image']
+        global pred, img_path, img_path_name
 
-        img_path = "dogma/images/" + img.filename
+        img = request.files['my_image']
+        img_path_name = 'images/' + img.filename
+        img_path = "dogma/static/images/" + img.filename
         img.save(img_path)
 
         pred = predict_label(img_path)
 
-    return render_template('main/main.html', prediction = pred, img_path = img_path)
+        img_info = Imginfo(imgname=img.filename, predictdate=datetime.now(), prediction=pred)
+        db.session.add(img_info)
+        db.session.commit()
+
+    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name)

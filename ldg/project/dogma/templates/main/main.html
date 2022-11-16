@@ -20,7 +20,7 @@
 
     {% if prediction %}
 
-    <img src="../../{{img_path}}" height="400px" width="400px">
+    <img src= {{ url_for('static', filename= img_name) }} height="400px" width="400px">
     <h2> Your Prediction   : <i> {{prediction}} </i></h2>
 
     {% endif %}

@@ -13,3 +13,9 @@ class User(db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+
+class Imginfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    imgname = db.Column(db.String(200), unique=True, nullable=False)
+    predictdate = db.Column(db.DateTime, nullable=False)
+    prediction = db.Column(db.Text(), nullable=False)
