@@ -65,8 +65,8 @@ def InputTest(x, y):
 '''
 4. 오퍼레이터 코드 작성
 '''
-df_to_sql = PythonOperator(
-    task_id= 'pd_to_sql',
+SQL_Insert = PythonOperator(
+    task_id= 'sql_insert',
     python_callable = InputTest('sixdogma', 'hello'),
     dag=init_dag
 )
