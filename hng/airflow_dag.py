@@ -27,30 +27,28 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Table, MetaData
 from sqlalchemy import insert, update
 
-# # Airflow 패키지
-# import airflow
-# import pendulum
-# from airflow import DAG
-# from airflow.operators.mysql_operator import MySQLOperator
-# from airflow.operators.python_operator import PythonOperator
+# Airflow 패키지
+import airflow
+import pendulum
+from airflow import DAG
+from airflow.operators.mysql_operator import MySQLOperator
+from airflow.operators.python_operator import PythonOperator
 
 
-# '''
-# 2. Airflow DAG 설정 및 선언
-# '''
-# local_tz = pendulum.timezone('Asia/Seoul')
-# init_args = {
-#     'owner' : 'airflow',
-#     'start_date' : datetime(2022, 11, 17, tzinfo=local_tz),
-#     'depends_on_past' : False,
+'''
+2. Airflow DAG 설정 및 선언
+'''
+local_tz = pendulum.timezone('Asia/Seoul')
+init_args = {
+    'owner' : 'airflow',
+    'start_date' : datetime(2022, 11, 17, 0, tzinfo=local_tz),
+    'schedule_interval' : '0 0 * * *'
+}
 
-# }
-
-# init_dag = DAG(
-#     dag_id = 'sixdogma_chromate',
-#     default_args = init_args,
-#     schedule_interval = '@once',
-# )
+init_dag = DAG(
+    dag_id = 'sixdogma_chromate',
+    default_args = init_args,
+)
 
 
 '''
@@ -113,7 +111,7 @@ def InputSQL(root_dir):
     # (2) Merge한 데이터프레임 소환
     var_df = Merging(root_dir)
 
-    # (2) to_sql()로 MySQL에 넣어주기
+    # (3) to_sql()로 MySQL에 넣어주기
     var_type = {'DateTime':sqlalchemy.types.DATETIME(),
                 'Date':sqlalchemy.types.DATE(),
                 'Time':sqlalchemy.types.TIME(),
@@ -129,5 +127,15 @@ def InputSQL(root_dir):
 '''
 4. 함수화 확인
 '''
-dir = r'C:\Users\admin\Desktop\FinalProject\chromate\chromate_data\variable\\'
-InputSQL(dir)
+# dir = r'C:\Users\admin\Desktop\FinalProject\chromate\chromate_data\variable\\'
+# InputSQL(dir)
+
+
+'''
+5. 오퍼레이터 코드 작성
+'''
+df_to_sql = PythonOperator(
+    task_id= 'pd_to_sql',
+    python_callable = InputSQL,
+    dag=init_dag
+)
