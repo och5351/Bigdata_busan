@@ -7,9 +7,12 @@ from keras import utils
 
 import numpy as np
 from datetime import datetime
+import os
 
 from dogma.models import Imginfo
 from dogma import db
+
+# img_dir = os.listdir('dogma/static/images')
 
 dic = {0: '정상', 1: '불량'}
 
@@ -32,7 +35,8 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 
 @bp.route('/', methods=['GET', 'POST'])
 def main():
-    return render_template('main/main.html')
+    imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+    return render_template('main/main.html', imginfo_list=imginfo_list)
 
 @bp.route('/submit/', methods=['GET', 'POST'])
 def predict():
@@ -40,6 +44,11 @@ def predict():
         global pred, img_path, img_path_name
 
         img = request.files['my_image']
+        # img_dir_path = os.path.join('dogma/static/images','img.filename')
+
+        # if os.path.isfile(img_dir_path) == True:
+            # pass
+        # else:
         img_path_name = 'images/' + img.filename
         img_path = "dogma/static/images/" + img.filename
         img.save(img_path)
@@ -47,7 +56,11 @@ def predict():
         pred = predict_label(img_path)
 
         img_info = Imginfo(imgname=img.filename, predictdate=datetime.now(), prediction=pred)
+        
+        
         db.session.add(img_info)
         db.session.commit()
+        
+        imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
-    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name)
+    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list)

@@ -16,6 +16,6 @@ class User(db.Model):
 
 class Imginfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    imgname = db.Column(db.String(200), unique=True, nullable=False)
+    imgname = db.Column(db.String(200), nullable=False)
     predictdate = db.Column(db.DateTime, nullable=False)
     prediction = db.Column(db.Text(), nullable=False)
