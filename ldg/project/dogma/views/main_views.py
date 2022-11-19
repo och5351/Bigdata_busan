@@ -1,6 +1,6 @@
 from werkzeug.utils import redirect
 
-from flask import Blueprint, Flask, render_template, request, session
+from flask import Blueprint, Flask, render_template, request, session, abort, url_for
 from keras.models import load_model
 from keras.preprocessing import image
 from keras import utils
@@ -36,10 +36,12 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 @bp.route('/', methods=['GET', 'POST'])
 def main():
     imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
-    return render_template('main/main.html', imginfo_list=imginfo_list)
+
+    return render_template('main/main.html', imginfo_list=imginfo_list, test="test")
 
 @bp.route('/submit/', methods=['GET', 'POST'])
 def predict():
+   
     if request.method == 'POST':
         global pred, img_path, img_path_name
 
@@ -62,7 +64,5 @@ def predict():
         db.session.commit()
         
         imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
-
-        print("@@@DEBUG2@@@", session["csrf_token"])
 
     return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list)

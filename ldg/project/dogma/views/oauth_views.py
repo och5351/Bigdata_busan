@@ -59,7 +59,6 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    print("@@@DEBUG@@@", session["csrf_token"])
     return redirect(url_for('main.main'))
 
 @bp.route("/logout")
@@ -71,3 +70,4 @@ def logout():
 @login_is_required
 def protected_area():
     return "protected! <a href='/oauth/logout'><button>Logout</button></a>"
+
