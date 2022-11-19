@@ -8,4 +8,4 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 
 @bp.route('/')
 def main():
-    return render_template('main/main.html')
+    return render_template('bootstrap/tables.html')
