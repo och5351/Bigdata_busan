@@ -35,11 +35,9 @@ def predict_label(img_path):
 bp = Blueprint('main', __name__, url_prefix='/main')
 
 def login_is_required():
-    
     if "google_id" not in session:
         session.clear()
         return False
-
     else:
         return True
 
@@ -76,4 +74,4 @@ def predict():
 
         print("@@@DEBUG2@@@", session["csrf_token"])
 
-    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list)
+    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list, isSession=login_is_required())
