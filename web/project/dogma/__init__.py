@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 import config
+from datetime import timedelta
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -10,6 +11,7 @@ migrate = Migrate()
 def create_app():   # app 실행 함수
     app = Flask(__name__)
     app.config.from_envvar('APP_CONFIG_FILE')
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
 
     # ORM
     db.init_app(app)
