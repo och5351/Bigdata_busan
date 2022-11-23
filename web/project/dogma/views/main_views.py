@@ -32,8 +32,6 @@ def predict_label(img_path):
     tmp = p.tolist()
     return dic[tmp[0][0]]
 
-bp = Blueprint('main', __name__, url_prefix='/main')
-
 def login_is_required():
     if "google_id" not in session:
         session.clear()
@@ -41,37 +39,80 @@ def login_is_required():
     else:
         return True
 
+def login_is_required2():
+    if "user_id" not in session:
+        session.clear()
+        return False
+    else:
+        return True
+
+bp = Blueprint('main', __name__, url_prefix='/main')
+
 
 @bp.route('/', methods=['GET', 'POST'])
 def main():
-    imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
-    return render_template('main/main.html', imginfo_list=imginfo_list, isSession=login_is_required())
+    if "google_id" in session:
+        imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+        print("@@@DEBUG2@@@", session)
+        return render_template('main/main.html', imginfo_list=imginfo_list, isSession=login_is_required())
+    
+    elif "user_id" in session:
+        imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+        print("@@@DEBUG2@@@", session)
+        return render_template('main/main.html', imginfo_list=imginfo_list, isSession=login_is_required2())
 
 @bp.route('/submit/', methods=['GET', 'POST'])
 def predict():
-    if request.method == 'POST':
-        global pred, img_path, img_path_name
+    if "google_id" in session:
+        if request.method == 'POST':
+            global pred, img_path, img_path_name
 
-        img = request.files['my_image']
-        # img_dir_path = os.path.join('dogma/static/images','img.filename')
+            img = request.files['my_image']
+            # img_dir_path = os.path.join('dogma/static/images','img.filename')
 
-        # if os.path.isfile(img_dir_path) == True:
-            # pass
-        # else:
-        img_path_name = 'images/' + img.filename
-        img_path = "dogma/static/images/" + img.filename
-        img.save(img_path)
+            # if os.path.isfile(img_dir_path) == True:
+                # pass
+            # else:
+            img_path_name = 'images/' + img.filename
+            img_path = "dogma/static/images/" + img.filename
+            img.save(img_path)
 
-        pred = predict_label(img_path)
+            pred = predict_label(img_path)
 
-        img_info = Imginfo(imgname=img.filename, predictdate=datetime.now(), prediction=pred)
-        
-        
-        db.session.add(img_info)
-        db.session.commit()
-        
-        imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+            img_info = Imginfo(imgname=img.filename, predictdate=datetime.now(), prediction=pred)
+            
+            
+            db.session.add(img_info)
+            db.session.commit()
+            
+            imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
-        print("@@@DEBUG2@@@", session["csrf_token"])
+            # print("@@@DEBUG2@@@", session["csrf_token"])
 
-    return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list, isSession=login_is_required())
+        return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list, isSession=login_is_required())
+
+    elif "user_id" in session:
+        if request.method == 'POST':
+            img = request.files['my_image']
+            # img_dir_path = os.path.join('dogma/static/images','img.filename')
+
+            # if os.path.isfile(img_dir_path) == True:
+                # pass
+            # else:
+            img_path_name = 'images/' + img.filename
+            img_path = "dogma/static/images/" + img.filename
+            img.save(img_path)
+
+            pred = predict_label(img_path)
+
+            img_info = Imginfo(imgname=img.filename, predictdate=datetime.now(), prediction=pred)
+            
+            
+            db.session.add(img_info)
+            db.session.commit()
+            
+            imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+
+            # print("@@@DEBUG2@@@", session["csrf_token"])
+
+        return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=img_path_name, imginfo_list=imginfo_list, isSession=login_is_required2())
