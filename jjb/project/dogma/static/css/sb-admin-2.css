@@ -41,10 +41,13 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+<<<<<<< Updated upstream
 .hide {
   display: none;
 }
 
+=======
+>>>>>>> Stashed changes
 *,
 *::before,
 *::after {

@@ -11,7 +11,12 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 # 구글 Oauth 설정
 GOOGLE_CLIENT_ID = "167648320999-47vq0ttrba3igorui2h372vhjbqcnp89.apps.googleusercontent.com"
+<<<<<<< Updated upstream
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "C:\localRepository\Bigdata_busan\ldg\project\dogma\static\client_secret.json")
+=======
+# client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "C:\localRepository\Bigdata_busan\ldg\project\dogma\static\client_secret.json")
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "../static/client_secret.json")
+>>>>>>> Stashed changes
 # 서버 파일 경로
 # client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "/home/ubuntu/projects/Bigdata_busan/ldg/project/dogma/static/client_secret.json")
 
@@ -52,11 +57,20 @@ def callback():
     id_info = id_token.verify_oauth2_token(
         id_token=credentials._id_token,
         request=token_request,
+<<<<<<< Updated upstream
         audience=GOOGLE_CLIENT_ID
+=======
+        audience=GOOGLE_CLIENT_ID,
+        clock_skew_in_seconds=2
+>>>>>>> Stashed changes
     )
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
+<<<<<<< Updated upstream
+=======
+    print("@@@DEBUG@@@", session["csrf_token"])
+>>>>>>> Stashed changes
     return redirect(url_for('main.main'))
 
 @bp.route("/logout")

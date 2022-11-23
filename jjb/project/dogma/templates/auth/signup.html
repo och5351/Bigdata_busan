@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-4">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Register</h1>
+                            </div>
+                            <form action="/signup/" method="POST">
+							    {{ form.csrf_token }}
+								{% include "form_errors.html" %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="userid" name="userid"
+                                        placeholder="ID" value="{{ form.userid.data or '' }}">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            placeholder="Password" value="{{ form.password1.data or '' }}" id="password1" name="password1">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            placeholder="Repeat Password" value="{{ form.password2.data or '' }}" id="password2" name="password2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="username" name="username"
+                                        placeholder="Name" value="{{ form.username.data or '' }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="email" name="email"
+                                        placeholder="Email" value="{{ form.email.data or '' }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="tel" class="form-control form-control-user" id="number" name="number"
+                                        placeholder="Number" value="{{ form.number.data or '' }}">
+                                </div>
+
+                                <div class="form-group">
+                                <!-- <a href="/" > -->
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>
+                                <!-- </a> -->
+                                </div>
+                                <hr>
+                            </form>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+ 
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+ 
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/demo/sb-admin-2.min.js') }}"></script>
+ 
+</body>
+{% endblock %}
