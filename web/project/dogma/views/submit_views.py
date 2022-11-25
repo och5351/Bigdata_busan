@@ -93,6 +93,4 @@ def predict():
             
             imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
-            # print("@@@DEBUG2@@@", session["csrf_token"])
-
         return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required2())
