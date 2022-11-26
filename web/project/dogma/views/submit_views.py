@@ -70,7 +70,7 @@ def predict():
 
             # print("@@@DEBUG2@@@", session["csrf_token"])
 
-        return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required())
+        return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required())
 
     elif "user_id" in session:
         if request.method == 'POST':
@@ -93,4 +93,4 @@ def predict():
             
             imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
-        return render_template('main/main.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required2())
+        return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required2())
