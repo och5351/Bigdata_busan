@@ -64,9 +64,9 @@ init_dag = DAG(
 '''
 3. 함수화
 '''
-# 1. PreProcessing : CSV 파일 하나당 전처리하는 코드
+### 1. PreProcessing : CSV 파일 하나당 전처리하는 코드
 def PreProcessing(main_dir, var_dir):
-    # (1) 필요한 package import
+    ## (1) 필요한 package import
     # 기본적인 패키지
     import pandas as pd
     import numpy as np
@@ -78,13 +78,13 @@ def PreProcessing(main_dir, var_dir):
     import glob
     import natsort
 
-    # (2) 데이터프레임 생성하는 코드
+    ## (2) 데이터프레임 생성하는 코드
     df = pd.read_csv(os.path.join(main_dir, var_dir), engine='pyarrow')
 
-    # (3) csv 파일명으로부터 'Date' 컬럼 만들어주기
+    ## (3) csv 파일명으로부터 'Date' 컬럼 만들어주기
     df['Date'] = '-'.join(var_dir.split('-')[-1].split('.')[:-1])
 
-    # (4) 'Time' 컬럼 전처리
+    ## (4) 'Time' 컬럼 전처리
     adj_time = list()
     for time in df['Time']:
         tmp = time.split(':')
@@ -96,16 +96,16 @@ def PreProcessing(main_dir, var_dir):
         adj_time.append(tmp)
     df['Time'] = adj_time
 
-    # (5) 스케줄링을 위해서는 유니크 컬럼이 필요
+    ## (5) 스케줄링을 위해서는 유니크 컬럼이 필요
     # 'Date'와 'Time' 합쳐서 'DateTime' 컬럼 만들기
     df['DateTime'] = df['Date'] + ' ' + df['Time']
     
     # (6) 결과물 df 리턴
     return df
 
-# 2. Merging : csv파일 전부 merge하고 정리하는 코드
+### 2. Merging : csv파일 전부 merge하고 정리하는 코드
 def Merging(file_dir):
-    # (1) 필요한 package import
+    ## (1) 필요한 package import
     # 기본적인 패키지
     import pandas as pd
     import numpy as np
@@ -117,28 +117,28 @@ def Merging(file_dir):
     import glob
     import natsort
 
-    # (2) 주어진 경로에서 파일들 불러내기
+    ## (2) 주어진 경로에서 파일들 불러내기
     varlist = natsort.natsorted(os.listdir(file_dir))
     varlist = [file for file in varlist if file.endswith('.csv')]
 
-    # (2) 미리 빈 데이터프레임 생성하기
+    ## (3) 미리 빈 데이터프레임 생성하기
     var_df = pd.DataFrame()
 
-    # (3) 전처리 코드 실행 : 모든 파일에 대해 반복문 돌리기
+    ## (4) 전처리 코드 실행 : 모든 파일에 대해 반복문 돌리기
     for i in range(len(varlist)):
         df = PreProcessing(file_dir, varlist[i])
         df = df[['Index', 'DateTime', 'Date', 'Time', 'Lot', 'pH', 'Temp', 'Voltage']]
         var_df = pd.concat([var_df, df], axis=0)
         
-    # (4) 필요없는 'Index' 컬럼 삭제
+    ## (5) 필요없는 'Index' 컬럼 삭제
     var_df.drop(columns=['Index'], inplace=True)
 
-    # (5) 결과물 var_df 리턴
+    ## (6) 결과물 var_df 리턴
     return var_df
 
-# 3. InputSQL : SQL Alchemy 실행시키고 집어넣는 코드
+### 3. InputSQL : SQL Alchemy 실행시키고 집어넣는 코드
 def InputSQL(root_dir, **kwargs):
-    # (1) 필요한 package import
+    ## (1) 필요한 package import
     # MySQL 관련 패키지
     import MySQLdb
     import mysql.connector
@@ -152,14 +152,14 @@ def InputSQL(root_dir, **kwargs):
     from sqlalchemy import Table, MetaData
     from sqlalchemy import insert, update
 
-    # (2) SQL Alchemy로 MySQL에 연결
+    ## (2) SQL Alchemy로 MySQL에 연결
     url = 'mysql+mysqldb://sixdogma:Poiu0987*@13.113.12.130:3306/Test'
     engine = sqlalchemy.create_engine(url, encoding='utf-8', echo=True)
 
-    # (3) Merge한 데이터프레임 소환
+    ## (3) Merge한 데이터프레임 소환
     var_df = Merging(root_dir)
 
-    # (4) to_sql()로 MySQL에 넣어주기
+    ## (4) to_sql()로 MySQL에 넣어주기
     var_type = {'DateTime':sqlalchemy.types.DATETIME(),
                 'Date':sqlalchemy.types.DATE(),
                 'Time':sqlalchemy.types.TIME(),
@@ -182,6 +182,7 @@ def InputSQL(root_dir, **kwargs):
 '''
 5. 오퍼레이터 코드 작성
 '''
+### 1. variable 데이터
 # dfprepro = PythonOperator(
 #     task_id = 'preprocessing',
 #     python_callable = PreProcessing,
@@ -198,6 +199,26 @@ dftosql = PythonOperator(
     task_id = 'inputsql',
     python_callable = InputSQL,
     op_kwargs = {'root_dir': '/home/sixdogma/testinput/variable'},
+    dag = init_dag
+)
+
+### 2. error 데이터
+# errprepro = PythonOperator(
+#     task_id = 'errpreprocessing',
+#     python_callable = ErrPreProcessing,
+#     dag = init_dag
+# )
+
+# errmerging = PythonOperator(
+#     task_id = 'errmerging',
+#     python_callable = ErrMerging,
+#     dag = init_dag
+# )
+
+errtosql = PythonOperator(
+    task_id = 'errinputsql',
+    python_callable = ErrInputSQL,
+    op_kwargs = {'root_dir': '/home/sixdogma/testinput/error'},
     dag = init_dag
 )
 
