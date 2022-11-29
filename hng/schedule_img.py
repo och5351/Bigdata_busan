@@ -24,8 +24,6 @@
 
 
 
-
-
 ##### SSH Connection
 
 ### Host : The remote host to connect.
@@ -45,8 +43,51 @@
 '''
 
 
+from datetime import datetime, timedelta
+from textwrap import dedent
+import airflow
+import pendulum
+from airflow import DAG
+
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
+
+from airflow.providers.apache.hdfs.hooks.webhdfs import WebHDFSHook
 
 
 
-from hdfs import InsecureClient
-client_hdfs = InsecureClient('http://3.112.187.213:9870', user='')
+local_tz = pendulum.timezone('Asia/Seoul')
+
+init_args = {
+    'owner' : 'airflow'
+}
+
+init_dag = DAG(
+    dag_id = 'sixdogma_hdfs',
+    default_args = init_args,
+    start_date = datetime(2022, 11, 29, tzinfo=local_tz),
+    schedule_interval = '@daily'
+)
+
+
+
+local_dir = f'/tmp/data/{today_EDT_str}'
+hdfs_dir = '/sixdogma_project/imgs'
+
+
+
+is_hdfs_available = WebHdfsSensor(
+    task_id = 'is_hdfs_available',
+    webhdfs_conn_id = 'webhdfs_default'
+)
+
+webhdfs_operator = WebHDFSOperator(
+    task_id = 'webhdfs_operator',
+    webhdfs_conn_id = 'webhdfs_default',
+    source = f'',   # source: local path of file or folder
+    destination = f''   # destination: HDFS path target
+)
+
+
+
+is_hdfs_available >> webhdfs_operator
