@@ -90,8 +90,11 @@
                             <form action="/main/submit" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <div>
-                                        <img src= {{ url_for('static', filename= img_path) }} height="400px" width="400px"> 
-                                        <li>{{ imginfo.prediction }}</li>
+                                        <center>
+                                        <img src= {{ url_for('static', filename= img_path) }} height="600px" width="600px"> 
+                                        <p>
+                                        <h2 class="h3 mb-2 text-gray-900">Your Prediction  : {{ imginfo.prediction }}</h2>
+                                        </center>
                                     </div>
                                 </div>
 

@@ -26,6 +26,9 @@
 
     <!-- dogma CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 
 </head>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
@@ -33,3 +36,20 @@
 {% endblock %}
 <!-- 기본 템플릿 안에 삽입될 내용 -->
 </html>
+
+<style>
+    .dogma-button{
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      height:  36px;
+      width: 70px;
+      border-radius: 18px;
+      /* fort-weight는 글자 굴기 */
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+</style>
