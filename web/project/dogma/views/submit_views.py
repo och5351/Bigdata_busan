@@ -44,7 +44,7 @@ def login_is_required2():
 
 bp = Blueprint('submit', __name__, url_prefix='/main')
 
-@bp.route('/submit/', methods=['GET', 'POST'])
+@bp.route('/submit/', methods=['GET', 'POST'], strict_slashes=False)
 def predict():
     if "google_id" in session:
         if request.method == 'POST':
