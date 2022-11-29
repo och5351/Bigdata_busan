@@ -71,11 +71,35 @@ init_dag = DAG(
 
 
 
-local_dir = f'/tmp/data/{today_EDT_str}'
-hdfs_dir = '/sixdogma_project/imgs'
+local_good_dir = '/home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good'
+local_bad_dir = '/home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad'
+
+hdfs_good_dir = '/sixdogma_project/imgs/good'
+hdfs_bad_dir = '/sixdogma_project/imgs/bad'
 
 
 
+# copy good image data from web directory to HDFS
+t1 = BashOperator(
+    task_id = 'move_good',
+    bash_command = f'./hdfs dfs -copyFromLocal -d {local_good_dir} {hdfs_good_dir}',
+    dag = init_dag
+)
+
+# copy bad image data from web directory to HDFS
+t2 = BashOperator(
+    task_id = 'move_bad',
+    bash_command = f'./hdfs dfs -copyFromLocal -d {local_bad_dir} {hdfs_bad_dir}',
+    dag = init_dag
+)
+
+
+
+t1 >> t2
+
+
+
+# 다른 방법
 is_hdfs_available = WebHdfsSensor(
     task_id = 'is_hdfs_available',
     webhdfs_conn_id = 'webhdfs_default'
