@@ -19,10 +19,11 @@ def create_app():   # app 실행 함수
     from . import models
 
     # 블루프린트
-    from .views import main_views, auth_views, oauth_views, submit_views
+    from .views import main_views, auth_views, oauth_views, submit_views, detail_views
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(main_views.bp)
     app.register_blueprint(submit_views.bp)
     app.register_blueprint(oauth_views.bp)
+    app.register_blueprint(detail_views.bp)
 
     return app
