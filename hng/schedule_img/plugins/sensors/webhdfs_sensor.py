@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from airflow.utils.context import Context
 
 
-class WebHdfsSensor(BaseSensorOperator):
+class WebHDFSSensor(BaseSensorOperator):
     """Waits for a file or folder to land in HDFS"""
 
     template_fields: Sequence[str] = ("filepath",)
