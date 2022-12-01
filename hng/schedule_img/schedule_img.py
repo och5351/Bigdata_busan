@@ -38,13 +38,21 @@ hdfs_dir = '/sixdogma_project'
 
 
 
+is_webhdfs_available = WebHdfsSensor(
+    task_id = 'is_webhdfs_available',
+    webhdfs_conn_id = 'webhdfs_default',
+    filepath = ''
+)
+
 webhdfs_operator = WebHDFSOperator(
     task_id = 'webhdfs_operator',
     webhdfs_conn_id = 'webhdfs_default',
     source = f'{local_dir}',   # source: local path of file or folder
-    destination = f'{hdfs_dir}',   # destination: HDFS path target
+    destination = '/sixdogma/test.txt',   # destination: HDFS path target
     dag = init_dag
 )
+
+is_webhdfs_available >> webhdfs_operator
 
 # t1 = BashOperator(
 #     task_id = 'move_test',
