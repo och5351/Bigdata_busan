@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
-from webhdfs_hooks import WebHDFSHook
+from webhdfs_hook import WebHDFSHook
 
 
 class WebHDFSOperator(BaseOperator):

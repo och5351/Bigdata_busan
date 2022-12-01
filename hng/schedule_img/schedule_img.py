@@ -6,10 +6,10 @@ from airflow import DAG
 
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
-from airflow.providers.apache.hdfs.sensors.web_hdfs import WebHdfsSensor
 
+from webhdfs_sensor import WebHdfsSensor
+from webhdfs_hook import WebHDFSHook
 from webhdfs_operator import WebHDFSOperator
-from webhdfs_hooks import WebHDFSHook
 
 
 
@@ -22,27 +22,25 @@ init_args = {
 init_dag = DAG(
     dag_id = 'sixdogma_hdfs',
     default_args = init_args,
-    start_date = datetime(2022, 11, 30, 17, tzinfo=local_tz),
+    start_date = datetime(2022, 12, 1, 14, tzinfo=local_tz),
     schedule_interval = '@hourly'
 )
 
 
 
 local_dir = '/home/sixdogma/test/test.txt'
-hdfs_dir = '/sixdogma_project'
-# local_good_dir = '/home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good'
-# local_bad_dir = '/home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad'
-
-# hdfs_good_dir = '/sixdogma_project/imgs/good'
-# hdfs_bad_dir = '/sixdogma_project/imgs/bad'
+hdfs_dir = 'http://3.112.187.213:9870/webhdfs/v1/sixdogma_project/'
 
 
 
+# 작동 성공
 is_webhdfs_available = WebHdfsSensor(
     task_id = 'is_webhdfs_available',
-    webhdfs_conn_id = 'webhdfs_default' 
+    webhdfs_conn_id = 'webhdfs_default',
+    filepath = '/sixdogma_project'
 )
 
+# 에러 발생
 webhdfs_operator = WebHDFSOperator(
     task_id = 'webhdfs_operator',
     webhdfs_conn_id = 'webhdfs_default',
