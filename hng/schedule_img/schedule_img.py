@@ -20,34 +20,33 @@ init_args = {
     'owner' : 'airflow'
 }
 
-init_dag = DAG(
-    dag_id = 'hdfs_test',
-    default_args = init_args,
-    start_date = datetime(2022, 12, 1, 14, tzinfo=local_tz),
-    schedule_interval = '@hourly'
-)
-
-
-
 local_dir = '/home/sixdogma/test/test.txt'
-# hdfs_dir = 'http://3.112.187.213:9870/webhdfs/v1/sixdogma_project/'
 
+with DAG(
+    dag_id = 'hdfs_test',
+    start_date = datetime(2022, 12, 1, 14, tzinfo=local_tz),
+    schedule_interval = '@hourly',
+    default_args = init_args,
+    catchup = False,
+) as dag:
 
+    ### 작동 성공
+    is_webhdfs_available = WebHDFSSensor(
+        task_id = 'is_webhdfs_available',
+        webhdfs_conn_id = 'webhdfs_default',
+        filepath = '/sixdogma_project'
+    )
 
-### 작동 성공
-is_webhdfs_available = WebHDFSSensor(
-    task_id = 'is_webhdfs_available',
-    webhdfs_conn_id = 'webhdfs_default',
-    filepath = '/sixdogma_project'
-)
+    ### 에러 발생
+    webhdfs_operator = WebHDFSOperator(
+        task_id = 'webhdfs_operator',
+        webhdfs_conn_id = 'webhdfs_default',
+        source = local_dir,   # source: local path of file or folder
+        destination = '/sixdogma_project',   # destination: HDFS path target
+    )
 
-### 에러 발생
-webhdfs_operator = WebHDFSOperator(
-    task_id = 'webhdfs_operator',
-    webhdfs_conn_id = 'webhdfs_default',
-    source = local_dir,   # source: local path of file or folder
-    destination = '/sixdogma_project',   # destination: HDFS path target
-    dag = init_dag
-)
-
-is_webhdfs_available >> webhdfs_operator
+    ### task 순서 설정
+    (
+        is_webhdfs_available
+        >> webhdfs_operator
+    )
