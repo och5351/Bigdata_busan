@@ -40,59 +40,15 @@ hdfs_dir = '/sixdogma_project'
 
 is_webhdfs_available = WebHdfsSensor(
     task_id = 'is_webhdfs_available',
-    webhdfs_conn_id = 'webhdfs_default',
-    filepath = ''
+    webhdfs_conn_id = 'webhdfs_default' 
 )
 
 webhdfs_operator = WebHDFSOperator(
     task_id = 'webhdfs_operator',
     webhdfs_conn_id = 'webhdfs_default',
-    source = f'{local_dir}',   # source: local path of file or folder
-    destination = '/sixdogma/test.txt',   # destination: HDFS path target
+    source = local_dir,   # source: local path of file or folder
+    destination = hdfs_dir,   # destination: HDFS path target
     dag = init_dag
 )
 
 is_webhdfs_available >> webhdfs_operator
-
-# t1 = BashOperator(
-#     task_id = 'move_test',
-#     bash_command = f'/usr/local/hadoop/bin/hdfs dfs -copyFromLocal -d {local_dir} {hdfs_dir}',
-#     dag = init_dag
-# )
-
-# copy good image data from web directory to HDFS
-# t1 = BashOperator(
-#     task_id = 'move_good',
-#     bash_command = f'/usr/local/hadoop/bin/hdfs dfs -copyFromLocal -d {local_good_dir} {hdfs_good_dir}',
-#     dag = init_dag
-# )
-
-# copy bad image data from web directory to HDFS
-# t2 = BashOperator(
-#     task_id = 'move_bad',
-#     bash_command = f'/usr/local/hadoop/bin/hdfs dfs -copyFromLocal -d {local_bad_dir} {hdfs_bad_dir}',
-#     dag = init_dag
-# )
-
-
-
-# t1 >> t2
-
-
-
-# 다른 방법
-# is_hdfs_available = WebHdfsSensor(
-#     task_id = 'is_hdfs_available',
-#     webhdfs_conn_id = 'webhdfs_default'
-# )
-
-# webhdfs_operator = WebHDFSOperator(
-#     task_id = 'webhdfs_operator',
-#     webhdfs_conn_id = 'webhdfs_default',
-#     source = f'{local_good_dir}',   # source: local path of file or folder
-#     destination = f'{hdfs_good_dir}'   # destination: HDFS path target
-# )
-
-
-
-# is_hdfs_available >> webhdfs_operator
