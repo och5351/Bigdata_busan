@@ -50,47 +50,53 @@ def predict():
         if request.method == 'POST':
             global pred, img_path, img_path_name
 
-            img = request.files['my_image']
-            img_path_name = 'images/' + img.filename
-            new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
-            img_path = "dogma/static/images/" + new_file_name
-            img.save(img_path)
+            try:
+                img = request.files['my_image']
+                img_path_name = 'images/' + img.filename
+                new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
+                img_path = "dogma/static/images/" + new_file_name
+                img.save(img_path)
 
-            pred = predict_label(img_path)
+                pred = predict_label(img_path)
 
-            render_img_path = 'images/' + new_file_name
+                render_img_path = 'images/' + new_file_name
 
-            img_info = Imginfo(imgname=new_file_name, predictdate=now, prediction=pred)
+                img_info = Imginfo(imgname=new_file_name, predictdate=now, prediction=pred)
+                
             
-            
-            db.session.add(img_info)
-            db.session.commit()
-            
-            imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+                db.session.add(img_info)
+                db.session.commit()
+                
+                imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
             # print("@@@DEBUG2@@@", session["csrf_token"])
 
-        return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required())
-
+                return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required())
+            except:
+                imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+                return render_template('main/main.html',imginfo_list=imginfo_list, isSession=login_is_required())
     elif "user_id" in session:
         if request.method == 'POST':
-            
-            img = request.files['my_image']
-            img_path_name = 'images/' + img.filename
-            new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
-            img_path = "dogma/static/images/" + new_file_name
-            img.save(img_path)
+            try:
+                img = request.files['my_image']
+                img_path_name = 'images/' + img.filename
+                new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
+                img_path = "dogma/static/images/" + new_file_name
+                img.save(img_path)
 
-            pred = predict_label(img_path)
+                pred = predict_label(img_path)
 
-            render_img_path = 'images/' + new_file_name
+                render_img_path = 'images/' + new_file_name
 
-            img_info = Imginfo(imgname=new_file_name, predictdate=now, prediction=pred)
-            
-            
-            db.session.add(img_info)
-            db.session.commit()
-            
-            imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+                img_info = Imginfo(imgname=new_file_name, predictdate=now, prediction=pred)
+                
+                
+                db.session.add(img_info)
+                db.session.commit()
+                
+                imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
 
-        return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required2())
+                return render_template('main/submit.html', prediction = pred, img_path = img_path, img_name=render_img_path, imginfo_list=imginfo_list, isSession=login_is_required2())
+            except:
+                imginfo_list = Imginfo.query.order_by(Imginfo.predictdate.asc())
+                return render_template('main/main.html', imginfo_list=imginfo_list, isSession=login_is_required2())
