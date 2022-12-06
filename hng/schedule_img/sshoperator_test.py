@@ -46,7 +46,8 @@ with DAG(
     ssh_hadoop = SSHOperator(
         task_id = 'ssh_hadoop',
         ssh_hook = hook_hadoop,
-        command = 'hdfs dfs -put /home/ubuntu/testfolder/test2 /test/test2'
+        # command = 'hdfs dfs -put /home/ubuntu/testfolder/test2 /test/test2'
+        command = '/usr/local/hadoop/bin/hdfs dfs -put /home/ubuntu/testfolder/test2 /test/test2'
         )
 
 ### SET TASK FLOW
