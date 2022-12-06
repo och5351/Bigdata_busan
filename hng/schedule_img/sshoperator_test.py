@@ -39,7 +39,7 @@ with DAG(
     ssh_default = SSHOperator(
         task_id = 'ssh_default',
         ssh_hook = hook_default,
-        command = 'scp /home/sixdogma/test/test2 root@35.75.77.128:/home/ubuntu/testfolder'
+        command = 'scp -r /home/sixdogma/test/test2 root@35.75.77.128:/home/ubuntu/testfolder'
         )
 
 ### from HADOOP SERVER to HDFS
