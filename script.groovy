@@ -39,17 +39,10 @@ node {
         stage('Build'){
             echo 'Building...'
             // sh ('ssh ubuntu@ec2 "cd test"')
+            sh ('ssh ubuntu@ec2 "kill -9 %1"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
-            // sh ('ssh ubuntu@ec2 "cd ~/projects/Bigdata_busan/ldg/project"')
             sh ('ssh ubuntu@ec2 "pwd"')
-            sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
-            sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
-            sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
             sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd && git pull"')
-        }
-
-        stage('test'){
-            
         }
 
         stage('Deploy alert'){
@@ -57,6 +50,10 @@ node {
         }
 
         stage('deploy'){
+            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . dogma.sh && nohup flask run --host=0.0.0.0 &"')
+            // sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
+            // sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
+            // sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
             // sh 'ssh -v ubuntu@54.180.131.194'
             // sh 'ssh ubuntu@54.180.131.194 mkdir ~/test'
             }
