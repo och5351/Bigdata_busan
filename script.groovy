@@ -50,7 +50,7 @@ node {
         }
 
         stage('deploy'){
-            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . dogma.sh && nohup flask run --host=0.0.0.0 &"')
+            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . dogma.sh && nohup flask run --host=0.0.0.0 >> nohup.out 2>&1 &"')
             // sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
             // sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
             // sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
