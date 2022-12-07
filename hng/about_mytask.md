@@ -1,25 +1,55 @@
-# 테스트코드는 삭제하지 않습니다
-
+# 공정환경변수
+### 공정환경변수 파일 메인 코드
 1. sixdogma_var_input.ipynb
+    원천데이터를 MySQL에 저장하는 코드
 
-공정환경변수 처리를 테스트한 코드
+2. schedule_var > main_schedulevar.py
+    공정환경변수 csv 파일들을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
 
-2. sixdogma_img_input.ipynb
+3. schedule_var > main_scheduleerr.py
+    에러로트 csv 파일들을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
 
-이미지를 blob type으로 변환해서 MySQL에 넣는 코드
+4. schedule_var > main_labelmodel.py
+    공정환경변수 및 에러로트 파일을 SQL에 저장해둔 것을 불러와서 모델에 필요한 라벨링을 만드는 작업을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
 
-3. testcode.ipynb
+### 공정환경변수 파일 테스트 코드
+1. testcode.ipynb
+    MySQL 스케줄링을 테스트하기 위해 연습한 코드
 
-MySQL 스케줄링을 테스트하기 위해 연습한 코드
+---
+# 이미지
+### 이미지 파일 메인 코드
+1. sixdogma_img_input.ipynb
+    원천이미지를 blob type으로 변환해서 MySQL에 저장하는 코드
 
-4. schedule_var
+2. schedule_img > main_scheduleimg.py
+    Flask 웹에 들어오는 이미지 파일들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
 
-공정환경변수 csv 파일들을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
+### 이미지 파일 테스트 코드
+1. schedule_img > hdfscli_test.py
+    <a href="https://hdfscli.readthedocs.io/en/latest/api.html">WebHDFS API clients</a>
 
-5. schedule_img
+    WebHDFS API clients를 이용해서 airflow DAG를 테스트해본 코드
 
-web에 들어오는 이미지 파일들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+2. schedule_img > sftpoperator_test.py
 
-6. airflow_study
+    <a href="">SFTP Operator</a>
 
-팀원들끼리 airflow 스터디를 하기 위해 만든 폴더
+    airflow의 SFTP Operator를 이용해서 airflow DAG를 테스트해본 코드
+
+3. schedule_img > sshoperator_test.py
+
+    <a href="">SSH Operator</a>
+
+    airflow의 SSH Operator를 이용해서 airflow DAG를 테스트해본 코드
+
+4. schedule_img > webhdfsoperator_test.py
+
+    <a href="">WebHDFS Operator</a>
+
+    WebHDFS Operator 예제문을 활용해서 airflow DAG를 테스트해본 코드
+
+---
+# 스터디
+1. airflow_study > *
+    팀원들끼리 airflow 스터디를 하기 위해 만든 폴더

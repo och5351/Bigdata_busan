@@ -1,6 +1,9 @@
 ##### IMPORT PACKAGES #####
+import time
+import datetime
 from datetime import datetime, timedelta
 from textwrap import dedent
+
 import pendulum
 import airflow
 from airflow.utils.dates import days_ago
@@ -40,7 +43,7 @@ with DAG(
     mkdir_today = SSHOperator(
         task_id = 'mkdir_today',
         ssh_hook = hook_hadoop,
-        command = 'mkdir /home/ubuntu/put_to_hdfs/{}',
+        command = 'mkdir /home/ubuntu/put_to_hdfs/{}'
     )
 
 ### from FLASK SERVER to HADOOP SERVER

@@ -54,18 +54,18 @@ init_args = {
 }
 
 init_dag = DAG(
-    dag_id = 'sixdogma_variables',
+    dag_id = 'sixdogma_vars',
     default_args = init_args,
-    start_date = datetime(2022, 11, 27, 15, tzinfo=local_tz),
+    start_date = datetime(2022, 12, 7, 12, tzinfo=local_tz),
     schedule_interval = '@daily'
 )
 
 
 '''
-3. 함수화
+3. 공정환경변수 함수화
 '''
-### 1. PreProcessing : CSV 파일 하나당 전처리하는 코드
-def PreProcessing(main_dir, var_dir):
+### 1. var_PreProcessing : CSV 파일 하나당 전처리하는 코드
+def var_PreProcessing(main_dir, var_dir):
     ## (1) 필요한 package import
     # 기본적인 패키지
     import pandas as pd
@@ -100,11 +100,11 @@ def PreProcessing(main_dir, var_dir):
     # 'Date'와 'Time' 합쳐서 'DateTime' 컬럼 만들기
     df['DateTime'] = df['Date'] + ' ' + df['Time']
     
-    # (6) 결과물 df 리턴
+    ## (6) 결과물 df 리턴
     return df
 
-### 2. Merging : csv파일 전부 merge하고 정리하는 코드
-def Merging(file_dir):
+### 2. var_Merging : csv파일 전부 merge하고 정리하는 코드
+def var_Merging(file_dir):
     ## (1) 필요한 package import
     # 기본적인 패키지
     import pandas as pd
@@ -126,7 +126,7 @@ def Merging(file_dir):
 
     ## (4) 전처리 코드 실행 : 모든 파일에 대해 반복문 돌리기
     for i in range(len(varlist)):
-        df = PreProcessing(file_dir, varlist[i])
+        df = var_PreProcessing(file_dir, varlist[i])
         df = df[['Index', 'DateTime', 'Date', 'Time', 'Lot', 'pH', 'Temp', 'Voltage']]
         var_df = pd.concat([var_df, df], axis=0)
         
@@ -136,8 +136,8 @@ def Merging(file_dir):
     ## (6) 결과물 var_df 리턴
     return var_df
 
-### 3. InputSQL : SQL Alchemy 실행시키고 집어넣는 코드
-def InputSQL(root_dir, **kwargs):
+### 3. var_InputSQL : SQL Alchemy 실행시키고 집어넣는 코드
+def var_InputSQL(root_dir, **kwargs):
     ## (1) 필요한 package import
     # MySQL 관련 패키지
     import MySQLdb
@@ -157,7 +157,7 @@ def InputSQL(root_dir, **kwargs):
     engine = sqlalchemy.create_engine(url, encoding='utf-8', echo=True)
 
     ## (3) Merge한 데이터프레임 소환
-    var_df = Merging(root_dir)
+    var_df = var_Merging(root_dir)
 
     ## (4) to_sql()로 MySQL에 넣어주기
     var_type = {'DateTime':sqlalchemy.types.DATETIME(),
@@ -173,61 +173,32 @@ def InputSQL(root_dir, **kwargs):
 
 
 '''
-4. 함수화 확인
+4. 오퍼레이터 코드 작성
 '''
-# dir = r'C:\Users\admin\Desktop\FinalProject\chromate\chromate_data\variable\\'
-# InputSQL(dir)
-
-
-'''
-5. 오퍼레이터 코드 작성
-'''
-### 1. variable 데이터
-# dfprepro = PythonOperator(
-#     task_id = 'preprocessing',
-#     python_callable = PreProcessing,
+# var_prepro = PythonOperator(
+#     task_id = 'var_prepro',
+#     python_callable = var_PreProcessing,
 #     dag = init_dag
 # )
 
-# dfmerging = PythonOperator(
-#     task_id = 'merging',
-#     python_callable = Merging,
+# var_merging = PythonOperator(
+#     task_id = 'var_merging',
+#     python_callable = var_Merging,
 #     dag = init_dag
 # )
 
-dftosql = PythonOperator(
-    task_id = 'inputsql',
-    python_callable = InputSQL,
+var_inputsql = PythonOperator(
+    task_id = 'var_inputsql',
+    python_callable = var_InputSQL,
     op_kwargs = {'root_dir': '/home/sixdogma/testinput/variable'},
     dag = init_dag
 )
 
-### 2. error 데이터
-# errprepro = PythonOperator(
-#     task_id = 'errpreprocessing',
-#     python_callable = ErrPreProcessing,
-#     dag = init_dag
-# )
-
-# errmerging = PythonOperator(
-#     task_id = 'errmerging',
-#     python_callable = ErrMerging,
-#     dag = init_dag
-# )
-
-errtosql = PythonOperator(
-    task_id = 'errinputsql',
-    python_callable = ErrInputSQL,
-    op_kwargs = {'root_dir': '/home/sixdogma/testinput/error'},
-    dag = init_dag
-)
-
 
 '''
-6. DAG task 순서 설정
+5. DAG task 순서 설정
 '''
-# dfprepro >> dfmerging >> dftosql
+# var_prepro >> var_merging >> var_inputsql
 
-
-### 실제로 작동하는 함수는 InputSQL이고 나머지는 그 함수를 작동하기 위한 함수이므로
-### 실질적으로 InputSQL 하나만 돌리면 된다!
+# 실제로 작동하는 함수는 var_InputSQL이고 나머지는 그 함수를 작동하기 위한 함수이므로
+# 실질적으로 var_InputSQL 하나만 돌리면 된다!
