@@ -39,7 +39,8 @@ node {
         stage('Build'){
             echo 'Building...'
             // sh ('ssh ubuntu@ec2 "cd test"')
-            sh ('ssh ubuntu@ec2 "kill -9 `lsof -t -i :5000`"')
+            // sh ('ssh ubuntu@ec2 "kill -9 `lsof -t -i :5000`"')
+            sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . flaskKill.sh"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
             sh ('ssh ubuntu@ec2 "pwd"')
             sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd && git pull"')
