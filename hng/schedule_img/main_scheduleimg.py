@@ -43,28 +43,28 @@ with DAG(
     mkdir_today = SSHOperator(
         task_id = 'mkdir_today',
         ssh_hook = hook_hadoop,
-        command = 'mkdir /home/ubuntu/put_to_hdfs/{}'
+        command = f'mkdir /home/ubuntu/put_to_hdfs/{}'
     )
 
 ### from FLASK SERVER to HADOOP SERVER
     flask_to_hadoop = SSHOperator(
         task_id = 'flask_to_hadoop',
         ssh_hook = hook_default,
-        command = 'scp -r /home/sixdogma/test/test2 root@35.75.77.128:/home/ubuntu/put_to_hdfs/{}'
+        command = f'scp -r /home/sixdogma/test/test2 root@35.75.77.128:/home/ubuntu/put_to_hdfs/{}'
     )
 
 ### from HADOOP SERVER to HDFS
     hadoop_to_hdfs = SSHOperator(
         task_id = 'hadoop_to_hdfs',
         ssh_hook = hook_hadoop,
-        command = 'hdfs dfs -put /home/ubuntu/put_to_hdfs/{} /sixdogma/imgs/{}'
+        command = f'hdfs dfs -put /home/ubuntu/put_to_hdfs/{} /sixdogma/imgs/{}'
     )
 
 ### REMOVE DIRECTORY in HADOOP SERVER
     hadoop_remove = SSHOperator(
         task_id = 'hadoop_remove',
         ssh_hook = hook_hadoop,
-        command = 'rm -r /home/ubuntu/put_to_hdfs/{}'
+        command = f'rm -r /home/ubuntu/put_to_hdfs/{}'
     )
 
 ### SET TASK FLOW

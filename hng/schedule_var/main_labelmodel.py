@@ -60,8 +60,8 @@ def LabelSQL():
     engine = sqlalchemy.create_engine(url, encoding='utf-8', echo=True)
 
     ## 3. SQLAlchemy로 DB에서 GET
-    var_df = pd.read_sql('SELECT * FROM VARIABLE', con=engine, index_col=None)
-    err_df = pd.read_sql('SELECT * FROM ERROR', con=engine, index_col=None)
+    var_df = pd.read_sql('SELECT DateTime, Date, Time, Lot, pH, Temp, Voltage FROM VARIABLE', con=engine, index_col=None)
+    err_df = pd.read_sql('SELECT Date, FailureLot1, FailureLot2 FROM ERROR', con=engine, index_col=None)
 
     ## 4. 라벨링 과정
     # 날짜 부분에서 문제가 없도록 전처리
@@ -93,6 +93,7 @@ def LabelSQL():
                       }
 
     var_df.to_sql(name='MODEL', con=engine, if_exists='append', index=False, dtype=labelwork_type)
+
 
 
 '''
