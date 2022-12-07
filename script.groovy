@@ -40,6 +40,7 @@ node {
             echo 'Building...'
             // sh ('ssh ubuntu@ec2 "cd test"')
             // sh ('ssh ubuntu@ec2 "kill -9 %1"')
+            sh ('ssh ubuntu@ec2 "kill -9 `lsof -i :5000|awk '{print $2}'`"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
             sh ('ssh ubuntu@ec2 "pwd"')
             sh ('ssh ubuntu@ec2 "cd /home/ubuntu/projects/Bigdata_busan/ldg/project && pwd && git pull"')
