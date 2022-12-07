@@ -28,7 +28,7 @@ hook_flask = SSHHook(ssh_conn_id = 'ssh_flask', key_file='/home/sixdogma/.ssh/id
 hook_hadoop = SSHHook(ssh_conn_id = 'ssh_hadoop', key_file='/home/sixdogma/.ssh/id_rsa')
 
 with DAG(
-    dag_id = 'ssh_flasktest',
+    dag_id = 'IMAGE_schedule',
     start_date = datetime(2022, 12, 6, 17, tzinfo=local_tz),
     schedule_interval = '5 * * * *',
     default_args = init_args
@@ -39,7 +39,7 @@ with DAG(
     ssh_flask = SSHOperator(
         task_id = 'ssh_flask',
         ssh_hook = hook_flask,
-        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images root@35.75.77.128:/home/ubuntu/testfolder'
+        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/* root@35.75.77.128:/home/ubuntu/get_flaskimg'
         )
 
 ### from HADOOP SERVER to HDFS
@@ -47,7 +47,7 @@ with DAG(
         task_id = 'ssh_hadoop',
         ssh_hook = hook_hadoop,
         # command = 'hdfs dfs -put /home/ubuntu/testfolder/test2 /test/test2'
-        command = '/usr/local/hadoop/bin/hdfs dfs -put /home/ubuntu/testfolder/images /test/images'
+        command = '/usr/local/hadoop/bin/hdfs dfs -put /home/ubuntu/get_flaskimg/* /imgs/good'
         )
 
 ### SET TASK FLOW
