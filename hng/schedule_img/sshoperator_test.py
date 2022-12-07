@@ -37,7 +37,7 @@ with DAG(
 ##### MAKE DAGS #####
 ### from FLASK SERVER to HADOOP SERVER
     ssh_flask = SSHOperator(
-        task_id = 'ssh_default',
+        task_id = 'ssh_flask',
         ssh_hook = hook_flask,
         command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/imgs root@35.75.77.128:/home/ubuntu/testfolder'
         )
