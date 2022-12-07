@@ -38,8 +38,6 @@ node {
 
         stage('Build'){
             echo 'Building...'
-            // sh ('ssh ubuntu@ec2 "cd test"')
-            // sh ('ssh ubuntu@ec2 "kill -9 `lsof -t -i :5000`"')
             sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . flaskKill.sh"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
             sh ('ssh ubuntu@ec2 "pwd"')
@@ -52,11 +50,6 @@ node {
 
         stage('deploy'){
             sh ('ssh ubuntu@ec2 "cd /home/ubuntu/venvs && . flaskRunner.sh"')
-            // sh ('ssh ubuntu@ec2 "export FLASK_APP=dogma"')
-            // sh ('ssh ubuntu@ec2 "export FLASK_DEBUG=true"')
-            // sh ('ssh ubuntu@ec2 "export APP_CONFIG_FILE=/home/ubuntu/projects/Bigdata_busan/ldg/project/config/production.py"')
-            // sh 'ssh -v ubuntu@54.180.131.194'
-            // sh 'ssh ubuntu@54.180.131.194 mkdir ~/test'
             }
 
         stage('Complete alert') {
