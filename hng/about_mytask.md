@@ -14,12 +14,16 @@
 
 4. schedule_var > main_labelmodel.py
 
-    공정환경변수 및 에러로트 파일을 SQL에 저장해둔 것을 불러와서 모델에 필요한 라벨링을 만드는 작업을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
+    MySQL에 저장해둔 공정환경변수 및 에러로트 내역을 불러와서 모델에 필요한 라벨링을 만드는 작업을 airflow를 이용하여 MySQL로 스케줄링 하기 위한 코드
 
 ### 공정환경변수 파일 테스트 코드
 1. testcode.ipynb
 
     MySQL 스케줄링을 테스트하기 위해 연습한 코드
+
+2. labeltest.ipynb
+    
+    airflow 스케줄링 중 오류가 발생하여 임시로 작성한 코드
 
 
 # 이미지
@@ -28,9 +32,14 @@
 
     원천이미지를 blob type으로 변환해서 MySQL에 저장하는 코드
 
-2. schedule_img > main_scheduleimg.py
+2. schedule_img > main_schedulegood.py
 
-    Flask 웹에 들어오는 이미지 파일들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+    Flask 웹에 들어오는 이미지 파일들 중 good으로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+
+3. schedule_img > main_schedulebad.py
+
+    Flask 웹에 들어오는 이미지 파일들 중 bad로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+    
 
 ### 이미지 파일 테스트 코드
 1. schedule_img > hdfscli_test.py
