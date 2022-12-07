@@ -54,7 +54,7 @@ init_args = {
 }
 
 init_dag = DAG(
-    dag_id = 'sixdogma_vars',
+    dag_id = 'VARIABLE_schedule',
     default_args = init_args,
     start_date = datetime(2022, 12, 7, 12, tzinfo=local_tz),
     schedule_interval = '@daily'
