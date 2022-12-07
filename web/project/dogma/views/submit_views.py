@@ -85,7 +85,12 @@ def predict():
                 img.save(img_path)
 
                 pred = predict_label(img_path)
+                # print(pred)
 
+                # if pred == "정상":
+                #     render_img_path = 'images/good/' + new_file_name
+                # else:
+                #     render_img_path = 'images/bad/' + new_file_name
                 render_img_path = 'images/' + new_file_name
 
                 img_info = Imginfo(imgname=new_file_name, predictdate=now, prediction=pred)
