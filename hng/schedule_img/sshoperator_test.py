@@ -39,7 +39,7 @@ with DAG(
     ssh_flask = SSHOperator(
         task_id = 'ssh_flask',
         ssh_hook = hook_flask,
-        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/imgs root@35.75.77.128:/home/ubuntu/testfolder'
+        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images root@35.75.77.128:/home/ubuntu/testfolder'
         )
 
 ### from HADOOP SERVER to HDFS
@@ -47,7 +47,7 @@ with DAG(
         task_id = 'ssh_hadoop',
         ssh_hook = hook_hadoop,
         # command = 'hdfs dfs -put /home/ubuntu/testfolder/test2 /test/test2'
-        command = '/usr/local/hadoop/bin/hdfs dfs -put /home/ubuntu/testfolder/imgs /test/imgs'
+        command = '/usr/local/hadoop/bin/hdfs dfs -put /home/ubuntu/testfolder/images /test/images'
         )
 
 ### SET TASK FLOW

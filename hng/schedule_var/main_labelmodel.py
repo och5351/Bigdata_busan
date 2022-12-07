@@ -23,8 +23,8 @@ init_args = {
 init_dag = DAG(
     dag_id = 'LABELING_schedule',
     default_args = init_args,
-    start_date = datetime(2022, 12, 7, 13, tzinfo=local_tz),
-    schedule_interval = '@daily'
+    start_date = datetime(2022, 12, 7, 17, tzinfo=local_tz),
+    schedule_interval = '@weekly'
 )
 
 
@@ -56,7 +56,7 @@ def LabelSQL():
     from sqlalchemy import insert, update
 
     ## 2. SQLAlchemy로 DB에 접속
-    url = 'mysql+mysqldb://sixdogma:Poiu0987*@13.113.12.130:3306/Test'
+    url = 'mysql+mysqldb://sixdogma:Poiu0987*@13.113.12.130:3306/Analysis'
     engine = sqlalchemy.create_engine(url, encoding='utf-8', echo=True)
 
     ## 3. SQLAlchemy로 DB에서 GET
@@ -64,17 +64,20 @@ def LabelSQL():
     err_df = pd.read_sql('SELECT Date, FailureLot1, FailureLot2 FROM ERROR', con=engine, index_col=None)
 
     ## 4. 라벨링 과정
-    # 날짜 부분에서 문제가 없도록 전처리
-    err_df['Date'] = err_df['Date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+    # 날짜 부분 타입이 바뀌는 경우가 있기 때문에 문제가 없도록 전처리
+    var_df['DateTime'] = var_df['DateTime'].apply(lambda x: x.strftime('%Y:%m:%d %H:%M:%S'))
+    var_df['Time'] = var_df['Time'].astype(str).map(lambda x: x[7:])
+
     # 조건에 해당하는 행에 라벨링하는 작업(정상 로트: 0 / 불량 로트: 1)
+    # float와 int 타입이 다르므로 float로 통일해주기
     sep = list()
 
     for i in range(len(err_df)):
         for j in range(len(var_df)):
             if err_df['Date'][i] == var_df['Date'][j]:
-                if err_df['FailureLot1'][i] == var_df['Lot'][j]:
+                if err_df['FailureLot1'][i].astype(float) == var_df['Lot'][j].astype(float):
                     sep.append(1)
-                elif err_df['FailureLot2'][i] == var_df['Lot'][j]:
+                elif err_df['FailureLot2'][i].astype(float) == var_df['Lot'][j].astype(float):
                     sep.append(1)
                 else:
                     sep.append(0)
@@ -93,7 +96,6 @@ def LabelSQL():
                       }
 
     var_df.to_sql(name='MODEL', con=engine, if_exists='append', index=False, dtype=labelwork_type)
-
 
 
 '''

@@ -56,7 +56,7 @@ init_args = {
 init_dag = DAG(
     dag_id = 'VARIABLE_schedule',
     default_args = init_args,
-    start_date = datetime(2022, 12, 7, 12, tzinfo=local_tz),
+    start_date = datetime(2022, 12, 7, 16, tzinfo=local_tz),
     schedule_interval = '@daily'
 )
 
@@ -153,7 +153,7 @@ def var_InputSQL(root_dir, **kwargs):
     from sqlalchemy import insert, update
 
     ## (2) SQL Alchemy로 MySQL에 연결
-    url = 'mysql+mysqldb://sixdogma:Poiu0987*@13.113.12.130:3306/Test'
+    url = 'mysql+mysqldb://sixdogma:Poiu0987*@13.113.12.130:3306/Analysis'
     engine = sqlalchemy.create_engine(url, encoding='utf-8', echo=True)
 
     ## (3) Merge한 데이터프레임 소환
