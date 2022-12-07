@@ -41,19 +41,19 @@
 
 2. schedule_img > sftpoperator_test.py
 
-    <a href="">SFTP Operator</a>
+    <a href="https://airflow.apache.org/docs/apache-airflow-providers-sftp/stable/connections/sftp.html">SFTP Operator</a>
 
     airflow의 SFTP Operator를 이용해서 airflow DAG를 테스트해본 코드
 
 3. schedule_img > sshoperator_test.py
 
-    <a href="">SSH Operator</a>
+    <a href="https://airflow.apache.org/docs/apache-airflow-providers-ssh/stable/connections/ssh.html">SSH Operator</a>
 
     airflow의 SSH Operator를 이용해서 airflow DAG를 테스트해본 코드
 
 4. schedule_img > webhdfsoperator_test.py
 
-    <a href="">WebHDFS Operator</a>
+    <a href="https://github.com/mcarujo/twitter-scraper/blob/main/dags/twitter_furiagg_dag.py">WebHDFS Operator</a>
 
     WebHDFS Operator 예제문을 활용해서 airflow DAG를 테스트해본 코드
 
