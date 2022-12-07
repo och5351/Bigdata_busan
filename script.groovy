@@ -39,7 +39,6 @@ node {
         stage('Build'){
             echo 'Building...'
             // sh ('ssh ubuntu@ec2 "cd test"')
-            // sh ('ssh ubuntu@ec2 "kill -9 %1"')
             sh ('ssh ubuntu@ec2 "kill -9 `lsof -t -i :5000`"')
             sh ('ssh ubuntu@ec2 "source /home/ubuntu/venvs/dogma/bin/activate"')
             sh ('ssh ubuntu@ec2 "pwd"')
