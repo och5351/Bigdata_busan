@@ -43,9 +43,6 @@ with DAG(
 
 ##### MAKE DAGS #####
 ### 1. GET FILES from FLASK SERVER to HADOOP SERVER
-# flask 폴더가 완전히 지워지면 안 되기 때문에 cat.jfif 제외
-# 루트 디렉토리 같은 느낌 : /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/
-# os.listdir 같은 느낌 : `ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/ | grep -v cat.jfif`
     flask_to_hadoop = SSHOperator(
         task_id = 'flask_to_hadoop',
         ssh_hook = hook_flask,
@@ -53,9 +50,6 @@ with DAG(
     )
 
 ### 2. EMPTY OUT DIRECTORY in FLASK SERVER
-# flask 폴더가 완전히 지워지면 안 되기 때문에 cat.jfif 제외
-# 루트 디렉토리 같은 느낌 : /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/
-# os.listdir 같은 느낌 : `ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/ | grep -v cat.jfif`
     empty_out_flask = SSHOperator(
         task_id = 'empty_out_flask',
         ssh_hook = hook_flask,
