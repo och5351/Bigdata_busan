@@ -44,11 +44,16 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.mysql.operators.mysql import MySqlOperator
 
+from slack_alert import SlackAlert
+
 
 '''
 2. Airflow DAG 설정 및 선언
 '''
+slack = SlackAlert('#airflow', 'xoxb-4187085457398-4480372543219-DX3L3m1TlcvH1DUpJO83vZOW')
+
 local_tz = pendulum.timezone('Asia/Seoul')
+
 init_args = {
     'owner' : 'airflow'
 }
@@ -56,8 +61,10 @@ init_args = {
 init_dag = DAG(
     dag_id = 'ERROR_schedule',
     default_args = init_args,
-    start_date = datetime(2022, 12, 7, 16, tzinfo=local_tz),
-    schedule_interval = '@daily'
+    start_date = datetime(2022, 12, 8, 19, tzinfo=local_tz),
+    schedule_interval = '30 19 * * *',
+    on_success_callback=slack.success_msg,
+    on_failure_callback=slack.fail_msg
 )
 
 
