@@ -47,7 +47,7 @@ with DAG(
     flask_to_hadoop = SSHOperator(
         task_id = 'flask_to_hadoop',
         ssh_hook = hook_flask,
-        command = 'scp -r `ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/ | grep -v cat.jfif` root@35.75.77.128:/home/ubuntu/get_badimg'
+        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/`ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/ | grep -v cat.jfif` root@35.75.77.128:/home/ubuntu/get_badimg'
     )
 
 ### 2. EMPTY OUT DIRECTORY in FLASK SERVER
@@ -55,7 +55,7 @@ with DAG(
     empty_out_flask = SSHOperator(
         task_id = 'empty_out_flask',
         ssh_hook = hook_flask,
-        command = 'sudo rm -r `ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/ | grep -v cat.jfif`'
+        command = 'sudo rm -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/`ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/bad/ | grep -v cat.jfif`'
     )
 
 ### 3. GET FILES from HADOOP SERVER to HDFS
