@@ -1,40 +1,6 @@
 '''
 1. 패키지 import
 '''
-# # 기본 패키지 import
-# import pandas as pd
-# import numpy as np
-# import pyarrow
-# from datetime import datetime
-
-# # 디렉토리 관련 패키지
-# import os
-# import glob
-# import natsort
-
-# # MySQL 관련 패키지
-# import MySQLdb
-# import mysql.connector
-
-# # SQL Alchemy 관련 패키지 1
-# import sqlalchemy
-# from sqlalchemy import create_engine
-# from sqlalchemy.dialects.mysql import *
-# from sqlalchemy.types import *
-
-# # SQL Alchemy 관련 패키지 2
-# from sqlalchemy.orm import sessionmaker
-# from sqlalchemy import Table, MetaData
-# from sqlalchemy import insert, update
-
-# # Airflow 패키지
-# import airflow
-# import pendulum
-# from airflow import DAG
-# from airflow.operators.mysql_operator import MySQLOperator
-# from airflow.operators.python_operator import PythonOperator
-
-
 from datetime import datetime, timedelta
 from textwrap import dedent
 import airflow
@@ -48,10 +14,18 @@ from slack_alert import SlackAlert
 
 
 '''
-2. Airflow DAG 설정 및 선언
+2. 슬랙 알람 설정
 '''
 slack = SlackAlert('#airflow', 'xoxb-4187085457398-4480372543219-DX3L3m1TlcvH1DUpJO83vZOW')
 
+def print_result(**kwargs):
+    r = kwargs['task_instance'].xcom_pull(key='result_msg')
+    print('message : ', r)
+
+
+'''
+3. Airflow DAG 설정 및 선언
+'''
 local_tz = pendulum.timezone('Asia/Seoul')
 
 init_args = {
@@ -69,7 +43,7 @@ init_dag = DAG(
 
 
 '''
-3. 공정환경변수 함수화
+4. 공정환경변수 처리 함수화
 '''
 ### 1. var_PreProcessing : CSV 파일 하나당 전처리하는 코드
 def var_PreProcessing(main_dir, var_dir):
@@ -180,7 +154,7 @@ def var_InputSQL(root_dir, **kwargs):
 
 
 '''
-4. 오퍼레이터 코드 작성
+5. 오퍼레이터 코드 작성
 '''
 # var_prepro = PythonOperator(
 #     task_id = 'var_prepro',
@@ -201,11 +175,18 @@ var_inputsql = PythonOperator(
     dag = init_dag
 )
 
+msg = PythonOperator(
+    task_id = 'msg',
+    python_callable = print_result,
+    dag = init_dag
+)
+
 
 '''
-5. DAG task 순서 설정
+6. DAG task 순서 설정
 '''
+var_inputsql >> msg
+
 # var_prepro >> var_merging >> var_inputsql
-
 # 실제로 작동하는 함수는 var_InputSQL이고 나머지는 그 함수를 작동하기 위한 함수이므로
 # 실질적으로 var_InputSQL 하나만 돌리면 된다!

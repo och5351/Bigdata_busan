@@ -14,10 +14,18 @@ from slack_alert import SlackAlert
 
 
 '''
-2. Airflow DAG 설정 및 선언
+2. 슬랙 알람 설정
 '''
 slack = SlackAlert('#airflow', 'xoxb-4187085457398-4480372543219-DX3L3m1TlcvH1DUpJO83vZOW')
 
+def print_result(**kwargs):
+    r = kwargs['task_instance'].xcom_pull(key='result_msg')
+    print('message : ', r)
+
+
+'''
+3. Airflow DAG 설정 및 선언
+'''
 local_tz = pendulum.timezone('Asia/Seoul')
 
 init_args = {
@@ -35,7 +43,7 @@ init_dag = DAG(
 
 
 '''
-3. 라벨링 작업 함수화
+4. 라벨링 작업 함수화
 '''
 def LabelSQL():
     ## 1. 필요한 패키지 import
@@ -70,7 +78,7 @@ def LabelSQL():
     err_df = pd.read_sql('SELECT Date, FailureLot1, FailureLot2 FROM ERROR', con=engine, index_col=None)
 
     ## 4. 라벨링 과정
-    # 날짜 부분 타입이 바뀌는 경우가 있기 때문에 문제가 없도록 전처리
+    # 날짜나 시간 부분 타입이 바뀌는 경우가 있기 때문에 문제가 없도록 전처리
     var_df['DateTime'] = var_df['DateTime'].apply(lambda x: x.strftime('%Y:%m:%d %H:%M:%S'))
     var_df['Time'] = var_df['Time'].astype(str).map(lambda x: x[7:])
 
@@ -105,10 +113,22 @@ def LabelSQL():
 
 
 '''
-4. 오퍼레이터 코드 작성
+5. 오퍼레이터 코드 작성
 '''
 label_inputsql = PythonOperator(
     task_id = 'label_inputsql',
     python_callable = LabelSQL,
     dag = init_dag
 )
+
+msg = PythonOperator(
+    task_id = 'msg',
+    python_callable = print_result,
+    dag = init_dag
+)
+
+
+'''
+6. DAG task 순서 설정
+'''
+label_inputsql >> msg
