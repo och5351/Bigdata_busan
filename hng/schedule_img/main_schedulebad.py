@@ -16,12 +16,8 @@ from airflow.operators.bash import BashOperator
 from airflow.providers.ssh.operators.ssh import SSHOperator
 from airflow.providers.ssh.hooks.ssh import SSHHook
 
-from slack_alert import SlackAlert
-
 
 ##### AIRFLOW BASIC SETTINGS #####
-slack = SlackAlert('#airflow', 'xoxb-4187085457398-4480372543219-DX3L3m1TlcvH1DUpJO83vZOW')
-
 local_tz = pendulum.timezone('Asia/Seoul')
 
 init_args = {
@@ -35,9 +31,7 @@ with DAG(
     dag_id = 'IMAGE_BAD_schedule',
     start_date = datetime(2022, 12, 8, 19, tzinfo=local_tz),
     schedule_interval = '0 21 * * *',
-    default_args = init_args,
-    on_success_callback=slack.success_msg,
-    on_failure_callback=slack.fail_msg
+    default_args = init_args
 ) as dag:
 
 

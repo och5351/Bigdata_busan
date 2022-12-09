@@ -28,7 +28,7 @@ hook_flask = SSHHook(ssh_conn_id = 'ssh_flask', key_file='/home/sixdogma/.ssh/id
 hook_hadoop = SSHHook(ssh_conn_id = 'ssh_hadoop', key_file='/home/sixdogma/.ssh/id_rsa')
 
 with DAG(
-    dag_id = 'IMAGE_GOOD_schedule',
+    dag_id = 'GOOD_IMAGE_schedule',
     start_date = datetime(2022, 12, 8, 19, tzinfo=local_tz),
     schedule_interval = '30 20 * * *',
     default_args = init_args
@@ -40,15 +40,15 @@ with DAG(
     flask_to_hadoop = SSHOperator(
         task_id = 'flask_to_hadoop',
         ssh_hook = hook_flask,
-        command = 'scp -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/`ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/ | grep -v cat.jfif` root@35.75.77.128:/home/ubuntu/get_goodimg'
-    )
+        command = 'cd /home/ubuntu/hadoop && . goodImg.sh' 
+        )
 
 ### 2. EMPTY OUT DIRECTORY in FLASK SERVER
-    empty_out_flask = SSHOperator(
-        task_id = 'empty_out_flask',
-        ssh_hook = hook_flask,
-        command = 'sudo rm -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/`ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/ | grep -v cat.jfif`'
-    )
+    # empty_out_flask = SSHOperator(
+    #     task_id = 'empty_out_flask',
+    #     ssh_hook = hook_flask,
+    #     command = 'sudo rm -r /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/`ls /home/ubuntu/projects/Bigdata_busan/web/project/dogma/static/images/good/ | grep -v cat.jfif`'
+    # )
 
 ### 3. GET FILES from HADOOP SERVER to HDFS
     hadoop_to_hdfs = SSHOperator(
@@ -67,7 +67,6 @@ with DAG(
 ### SET TASK FLOW
     (
         flask_to_hadoop
-        >> empty_out_flask
         >> hadoop_to_hdfs
         >> empty_out_hadoop
     )
