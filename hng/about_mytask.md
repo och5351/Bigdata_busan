@@ -32,11 +32,11 @@
 
     원천이미지를 blob type으로 변환해서 MySQL에 저장하는 코드
 
-2. schedule_img > main_schedulegood.py
+2. schedule_img > main_schedulegood_sh.py
 
     Flask 웹에 들어오는 이미지 파일들 중 good으로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
 
-3. schedule_img > main_schedulebad.py
+3. schedule_img > main_schedulebad_sh.py
 
     Flask 웹에 들어오는 이미지 파일들 중 bad로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
     
@@ -65,6 +65,18 @@
     <a href="https://github.com/mcarujo/twitter-scraper/blob/main/dags/twitter_furiagg_dag.py">WebHDFS Operator</a>
 
     WebHDFS Operator 예제문을 활용해서 airflow DAG를 테스트해본 코드
+
+5. schedule_img > schedulegood_test.py
+
+    Flask 웹에 들어오는 이미지 파일들 중 good으로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+
+    거의 구현되었던 테스트 코드 (명령어 길게 바꾸고 나서는 잘 작동 안 됨 => sh로 변경)
+
+6. schedule_img > main_schedulebad.py
+
+    Flask 웹에 들어오는 이미지 파일들 중 bad로 판정된 이미지들을 airflow를 이용하여 HDFS로 스케줄링 하기 위한 코드
+
+    거의 구현되었던 테스트 코드 (명령어 길게 바꾸고 나서는 잘 작동 안 됨 => sh로 변경)
 
 
 # 스터디
