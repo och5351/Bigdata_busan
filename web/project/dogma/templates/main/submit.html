@@ -17,7 +17,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
-                <div class="sidebar-brand-text mx-7">Dogma</div>
+                <div class="sidebar-brand-text mx-7">SixDogma</div>
             </a>
 
             <!-- Divider -->
@@ -75,18 +75,32 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <!-- 모델 기능 -->
                         <div>
-                            <h1 class="h3 mb-2 text-gray-800">Image Classfication</h1>
+                            <center>
+                                <br>
+                            <h2 class="h2 mb-2 text-gray-900">이미지 판독</h2>
+                            </center>
+                            <br>
+
+                            {% if prediction %}
+                            <center>
+                                <img src= {{ url_for('static', filename= img_name) }} height="450px" width="450px">
+                                <br>
+                                <br>
+                                <h1 class="h3  mb-2 text-gray-800"> 판정 결과   : {{prediction}} </h1>
+                            </center>
+                            {% endif %}
+
                             <form action="/main/submit" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <table>
                                         <tr>
                                             <th>
-                                                <label for="pwd" class="form-label">Upload Your Image</label>
+                                                <!-- 여기가 '이미지 업로드'자리 -->
+                                                <label for="pwd" class="form-label"></label>
                                             </th>
                                         </tr>
                                         <tr>
@@ -94,21 +108,12 @@
                                                 <input class="form-control" type="file" placeholder="Hours Studied" name="my_image" id="pwd">
                                             </th>
                                             <th class ="dogma-button">    
-                                                <button class ="dogma-button" type="submit">Predict</button>
+                                                <button class ="dogma-button" type="submit">예측</button>
                                             </th>
                                         </tr>
                                     </table>
                                 </div>
                             </form>
-
-                            {% if prediction %}
-                            <center>
-                                <img src= {{ url_for('static', filename= img_name) }} height="400px" width="400px">
-                                <br>
-                                <h1 class="h3 mb-2 text-gray-800"> Your Prediction   : {{prediction}} </h1>
-                            </center>
-                            {% endif %}
-
                         </div>
 
                         <div class="card-body">
@@ -185,15 +190,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">현재 세션을 종료할 준비가 되면 아래에서 "로그아웃"을 선택하십시오.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -204,15 +209,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">현재 세션을 종료할 준비가 되면 아래에서 "로그아웃"을 선택하십시오.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('oauth.logout') }}">Logout</a>
+                    <a class="btn btn-primary" href="{{ url_for('oauth.logout') }}">로그아웃</a>
                 </div>
             </div>
         </div>
