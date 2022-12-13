@@ -13,7 +13,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
-                <div class="sidebar-brand-text mx-7">Dogma</div>
+                <div class="sidebar-brand-text mx-7">SixDogma</div>
             </a>
 
             <!-- Divider -->
@@ -93,7 +93,7 @@
                                         <center>
                                         <img src= {{ url_for('static', filename= img_path) }} height="600px" width="600px"> 
                                         <p>
-                                        <h2 class="h3 mb-2 text-gray-900">Your Prediction  : {{ imginfo.prediction }}</h2>
+                                        <h2 class="h3 mb-2 text-gray-900">판정 결과 : {{ imginfo.prediction }}</h2>
                                         </center>
                                     </div>
                                 </div>
@@ -139,15 +139,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -158,15 +157,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('oauth.logout') }}">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary" href="{{ url_for('oauth.logout') }}">로그아웃</a>
                 </div>
             </div>
         </div>
