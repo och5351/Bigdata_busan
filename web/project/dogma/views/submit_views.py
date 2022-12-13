@@ -11,7 +11,11 @@ from datetime import datetime
 
 dic = {0: '정상', 1: '불량'}
 
-model = load_model('dogma/static/cnn_3.h5')
+# 기존 모델 로드
+# model = load_model('dogma/static/cnn_3.h5')
+
+# 재훈련된 모델 로드
+model = load_model('dogma/static/cnn_padding.h5')
 
 model.make_predict_function()
 
