@@ -57,7 +57,7 @@ def predict():
             try:
                 img = request.files['my_image']
                 img_path_name = 'images/' + img.filename
-                new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
+                new_file_name = "img_" + datetime.now().strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
                 img_path = "dogma/static/images/" + new_file_name
                 img.save(img_path)
 
@@ -88,7 +88,7 @@ def predict():
             try:
                 img = request.files['my_image']
                 img_path_name = 'images/' + img.filename
-                new_file_name = "img_" + now.strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
+                new_file_name = "img_" + datetime.now().strftime("%y.%m.%d-%H：%M：%S.%f") + '_' + img.filename
                 img_path = "dogma/static/images/" + new_file_name
                 img.save(img_path)
 
