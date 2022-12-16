@@ -10,7 +10,7 @@ import requests
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 # 구글 Oauth 설정
-GOOGLE_CLIENT_ID = "167648320999-47vq0ttrba3igorui2h372vhjbqcnp89.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "167648320999-ikubtf4huo58ib4cb0j1qfj7kqirj09c.apps.googleusercontent.com"
 # client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "C:\localRepository\Bigdata_busan\ldg\project\dogma\static\client_secret.json")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "../static/client_secret.json")
 # 서버 파일 경로
@@ -19,7 +19,8 @@ client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "../static/cli
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-    redirect_uri="http://127.0.0.1:5000/oauth/callback"
+    # redirect_uri="http://127.0.0.1:5000/oauth/callback"
+    redirect_uri="http://www.sixdogma.site:5000/oauth/callback"
     )
 
 bp = Blueprint("oauth", __name__, url_prefix="/oauth")
@@ -59,6 +60,7 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
+    print("@@@DEBUG@@@", session["csrf_token"])
     return redirect(url_for('main.main'))
 
 @bp.route("/logout")
@@ -70,4 +72,3 @@ def logout():
 @login_is_required
 def protected_area():
     return "protected! <a href='/oauth/logout'><button>Logout</button></a>"
-
